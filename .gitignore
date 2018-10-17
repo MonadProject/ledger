@@ -5,4 +5,5 @@
 /crypto/target
 /blockchain/target
 /cmdtools/target
+/serialization/target
 .idea/

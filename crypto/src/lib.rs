@@ -38,9 +38,6 @@ pub fn double_sha2(input: &[u8]) -> Hash256 {
     hasher.input(&*h2);
     hasher.result(&mut *result);
     result
-
-
-
 }
 
 

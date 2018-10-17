@@ -1,5 +1,8 @@
+extern crate byteorder;
+
 mod reader;
 mod stream;
+
 
 #[cfg(test)]
 mod tests {
