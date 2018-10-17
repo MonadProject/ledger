@@ -7,6 +7,6 @@ pub struct BlockHeader {
     pub previous_block_header_hash: hash::Hash256,
     pub merkle_root_hash: hash::Hash256,
     pub time: u32,
-    pub nBits: u32,
+    pub n_bits: u32,
     pub nonce: u32,
 }

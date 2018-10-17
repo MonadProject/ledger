@@ -9,6 +9,5 @@ fn concatenate<T>(a: T, b: T) -> Hash512 where T: AsRef<Hash256> {
 }
 
 fn calculate_merge_hash<T>(a: T, b:T) -> Hash256 where T: AsRef<Hash256> {
-    let merge_node_string = &*concatenate(a,b);
-    double_sha256(merge_node_string)
+
 }
