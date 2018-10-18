@@ -1,4 +1,5 @@
 fn main() {
-    let mut s = String::from("hello");
-    &mut s.push_str("aa");
+    let mut x = 5;
+    let y = &x;
+    println!("{}",*y)
 }

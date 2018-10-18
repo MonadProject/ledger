@@ -1,4 +1,4 @@
-use byteorder::{LittleEndian, ReadBytesExt, WriteBytesExt};
+use byteorder::{LittleEndian, WriteBytesExt};
 use std::io::Error;
 use std::io::Write;
 
@@ -22,7 +22,7 @@ impl Serializable for bool {
 }
 
 impl Serializable for u8 {
-    fn serialize(&self, s: & mut Stream) {
+    fn serialize(&self, s: &mut Stream) {
         s.write_u8(*self).unwrap()
     }
 
@@ -32,7 +32,7 @@ impl Serializable for u8 {
 }
 
 impl Serializable for u16 {
-    fn serialize(&self, s: & mut Stream) {
+    fn serialize(&self, s: &mut Stream) {
         s.write_u16::<LittleEndian>(*self).unwrap()
     }
 
@@ -42,8 +42,8 @@ impl Serializable for u16 {
 }
 
 impl Serializable for u32 {
-    fn serialize(&self, s: & mut Stream) {
-       s.write_u32::<LittleEndian>(*self).unwrap()
+    fn serialize(&self, s: &mut Stream) {
+        s.write_u32::<LittleEndian>(*self).unwrap()
     }
 
     fn serialized_size(&self) -> usize {
@@ -74,13 +74,18 @@ impl Stream {
             buffer: Vec::new()
         }
     }
+
+    pub fn write_slice(&mut self, bytes: &[u8]) -> &mut Self {
+        self.buffer.write(bytes).unwrap();
+        self
+    }
 }
 
 
 #[cfg(test)]
 mod tests {
-    use super::Stream;
     use stream::Serializable;
+    use super::Stream;
 
     #[test]
     fn test_new_stream() {
@@ -96,7 +101,7 @@ mod tests {
         let mut stream = Stream::new();
         1u8.serialize(&mut stream);
         0u8.serialize(&mut stream);
-        println!("{:#?}",stream);
+        println!("{:#?}", stream);
     }
 
 
@@ -104,15 +109,15 @@ mod tests {
     fn test_bool_serialize() {
         let mut stream = Stream::new();
         true.serialize(&mut stream);
-        println!("{:#?}",stream);
-        assert_eq!(stream,Stream {
-           buffer: [1].to_vec()
+        println!("{:#?}", stream);
+        assert_eq!(stream, Stream {
+            buffer: [1].to_vec()
         });
 
         let mut stream = Stream::new();
         false.serialize(&mut stream);
-        println!("{:#?}",stream);
-        assert_eq!(stream,Stream {
+        println!("{:#?}", stream);
+        assert_eq!(stream, Stream {
             buffer: [0].to_vec()
         });
     }
