@@ -43,7 +43,7 @@ impl Serializable for u16 {
 
 impl Serializable for u32 {
     fn serialize(&self, s: & mut Stream) {
-       s.write_i32::<LittleEndian>(*self).unwrap()
+       s.write_u32::<LittleEndian>(*self).unwrap()
     }
 
     fn serialized_size(&self) -> usize {
@@ -90,6 +90,15 @@ mod tests {
             buffer: [].to_vec()
         });
     }
+
+    #[test]
+    fn test_u8_serialize() {
+        let mut stream = Stream::new();
+        1u8.serialize(&mut stream);
+        0u8.serialize(&mut stream);
+        println!("{:#?}",stream);
+    }
+
 
     #[test]
     fn test_bool_serialize() {
