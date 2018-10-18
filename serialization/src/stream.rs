@@ -21,6 +21,36 @@ impl Serializable for bool {
     }
 }
 
+impl Serializable for u8 {
+    fn serialize(&self, s: & mut Stream) {
+        s.write_u8(*self).unwrap()
+    }
+
+    fn serialized_size(&self) -> usize {
+        1
+    }
+}
+
+impl Serializable for u16 {
+    fn serialize(&self, s: & mut Stream) {
+        s.write_u16::<LittleEndian>(*self).unwrap()
+    }
+
+    fn serialized_size(&self) -> usize {
+        2
+    }
+}
+
+impl Serializable for u32 {
+    fn serialize(&self, s: & mut Stream) {
+       s.write_i32::<LittleEndian>(*self).unwrap()
+    }
+
+    fn serialized_size(&self) -> usize {
+        4
+    }
+}
+
 #[derive(Debug, PartialEq)]
 pub struct Stream {
     buffer: Vec<u8>
