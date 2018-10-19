@@ -2,7 +2,7 @@ extern crate byteorder;
 
 mod reader;
 mod stream;
-
+mod compact;
 
 #[cfg(test)]
 mod tests {
