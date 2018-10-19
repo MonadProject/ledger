@@ -77,7 +77,7 @@ impl Serializable for i32 {
     }
 
     fn serialized_size(&self) -> usize {
-        8
+        4
     }
 }
 
