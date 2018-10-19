@@ -26,8 +26,6 @@ impl<R> Reader<R> where R: io::Read {
     pub fn read<T>(&mut self) -> Result<T, Error> where T: Deserializable {
         T::deserialize(self)
     }
-
-
 }
 
 
@@ -44,10 +42,46 @@ impl Deserializable for u16 {
     }
 }
 
+impl Deserializable for u32 {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        Ok(reader.read_u32::<LittleEndian>().unwrap())
+    }
+}
+
+impl Deserializable for i8 {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        Ok(reader.read_i8().unwrap())
+    }
+}
+
+impl Deserializable for i16 {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        Ok(reader.read_i16::<LittleEndian>().unwrap())
+    }
+}
+
+impl Deserializable for i32 {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        Ok(reader.read_i32::<LittleEndian>().unwrap())
+    }
+}
+
+impl Deserializable for f32 {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        Ok(reader.read_f32::<LittleEndian>().unwrap())
+    }
+}
+
+impl Deserializable for f64 {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        Ok(reader.read_f64::<LittleEndian>().unwrap())
+    }
+}
+
 pub fn deserialize<R, T>(buffer: R) -> Result<T, Error> where R: io::Read, T: Deserializable {
     let mut reader = Reader::from_buffer(buffer);
-//    reader.read::<T>()
-    reader.read()
+    reader.read::<T>()
+//    reader.read()
 }
 
 
@@ -72,13 +106,12 @@ mod tests {
 
     #[test]
     fn test_deserialize() {
-        let r = deserialize::<&[u8],u8>(&[1u8]).ok().unwrap();
-        println!("{}",r);
-        assert_eq!(1,r);
+        let r = deserialize::<&[u8], u8>(&[1u8]).ok().unwrap();
+        println!("{}", r);
+        assert_eq!(1, r);
 
-        let r = deserialize::<&[u8],u16>(&[144,1]).ok().unwrap();
-        println!("{}",r);
-        assert_eq!(400,r);
+        let r = deserialize::<&[u8], u16>(&[144, 1]).ok().unwrap();
+        println!("{}", r);
+        assert_eq!(400, r);
     }
-
 }

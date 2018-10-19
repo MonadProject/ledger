@@ -51,6 +51,36 @@ impl Serializable for u32 {
     }
 }
 
+impl Serializable for i8 {
+    fn serialize(&self, s: &mut Stream) {
+        s.write_i8(*self).unwrap()
+    }
+
+    fn serialized_size(&self) -> usize {
+        1
+    }
+}
+
+impl Serializable for i16 {
+    fn serialize(&self, s: &mut Stream) {
+        s.write_i16::<LittleEndian>(*self).unwrap()
+    }
+
+    fn serialized_size(&self) -> usize {
+        2
+    }
+}
+
+impl Serializable for i32 {
+    fn serialize(&self, s: &mut Stream) {
+        s.write_i32::<LittleEndian>(*self).unwrap()
+    }
+
+    fn serialized_size(&self) -> usize {
+        8
+    }
+}
+
 #[derive(Debug, PartialEq)]
 pub struct Stream {
     buffer: Vec<u8>
@@ -109,7 +139,6 @@ mod tests {
         let mut stream = Stream::new();
         400u16.serialize(&mut stream);
         println!("{:#?}", stream);
-
     }
 
     #[test]
