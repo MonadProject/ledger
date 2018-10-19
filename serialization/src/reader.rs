@@ -1,4 +1,4 @@
-use byteorder::ReadBytesExt;
+use byteorder::{LittleEndian, ReadBytesExt};
 use std::io;
 use std::marker;
 
@@ -37,9 +37,17 @@ impl Deserializable for u8 {
     }
 }
 
+
+impl Deserializable for u16 {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        Ok(reader.read_u16::<LittleEndian>().unwrap())
+    }
+}
+
 pub fn deserialize<R, T>(buffer: R) -> Result<T, Error> where R: io::Read, T: Deserializable {
     let mut reader = Reader::from_buffer(buffer);
-    reader.read::<T>()
+//    reader.read::<T>()
+    reader.read()
 }
 
 
@@ -56,4 +64,21 @@ impl<'a> Reader<&'a [u8]> {
             inner: bytes
         }
     }
+}
+
+#[cfg(test)] //cargo test -- --nocapture
+mod tests {
+    use super::deserialize;
+
+    #[test]
+    fn test_deserialize() {
+        let r = deserialize::<&[u8],u8>(&[1u8]).ok().unwrap();
+        println!("{}",r);
+        assert_eq!(1,r);
+
+        let r = deserialize::<&[u8],u16>(&[144,1]).ok().unwrap();
+        println!("{}",r);
+        assert_eq!(400,r);
+    }
+
 }

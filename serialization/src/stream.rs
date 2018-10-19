@@ -104,6 +104,13 @@ mod tests {
         println!("{:#?}", stream);
     }
 
+    #[test]
+    fn test_u16_serialize() {
+        let mut stream = Stream::new();
+        400u16.serialize(&mut stream);
+        println!("{:#?}", stream);
+
+    }
 
     #[test]
     fn test_bool_serialize() {
