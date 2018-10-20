@@ -31,6 +31,12 @@ impl From<u64> for Compact {
     }
 }
 
+impl From<usize> for Compact {
+    fn from(i: usize) -> Self {
+        Compact(i as u64)
+    }
+}
+
 impl Serializable for Compact {
     fn serialize(&self, s: &mut Stream) {
         match self.0 {

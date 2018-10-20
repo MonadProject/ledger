@@ -67,12 +67,25 @@ impl Serializable for u64 {
 impl Serializable for String {
     fn serialize(&self, s: &mut Stream) {
         let string: &[u8] = self.as_ref();
-        s.write_struct(Compact::from(string.len()));
-        s.write_struct(string)
+        s.write_struct(&Compact::from(string.len()));
+        s.write_slice(string);
     }
 
     fn serialized_size(&self) -> usize {
         let string: &[u8] = self.as_ref();
+        Compact::from(string.len()).serialized_size() + string.len()
+    }
+}
+
+impl<'a> Serializable for &'a str {
+    fn serialize(&self, s: &mut Stream) {
+        let string = self.as_bytes();
+        s.write_struct(&Compact::from(string.len()));
+        s.write_slice(string);
+    }
+
+    fn serialized_size(&self) -> usize {
+        let string: &[u8] = self.as_bytes();
         Compact::from(string.len()).serialized_size() + string.len()
     }
 }
