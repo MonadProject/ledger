@@ -29,10 +29,31 @@ impl From<u64> for Compact {
 
 impl Serializable for Compact {
     fn serialize(&self, s: &mut Stream) {
-        unimplemented!()
+        match self.0 {
+            0...0xfd => {
+                s.write_struct(&(self.0 as u8));
+            }
+            0xfd...0xffff => {
+                s.write_struct(&0xfd);
+                s.write_struct(&(self.0 as u16));
+            }
+            0xffff...0xffff_ffff => {
+                s.write_struct(&0xfe);
+                s.write_struct(&(self.0 as u32));
+            }
+            _ => {
+                s.write_struct(&0xff);
+                s.write_struct(&(self.0 as u64));
+            }
+        }
     }
 
     fn serialized_size(&self) -> usize {
-        unimplemented!()
+        match self.0 {
+            0...0xfd => 1,
+            0xfd...0xffff => 3,
+            0xffff...0xffff_ffff => 5,
+            _ => 9
+        }
     }
 }

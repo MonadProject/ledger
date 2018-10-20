@@ -41,6 +41,7 @@ impl Serializable for u16 {
     }
 }
 
+
 impl Serializable for u32 {
     fn serialize(&self, s: &mut Stream) {
         s.write_u32::<LittleEndian>(*self).unwrap()
@@ -48,6 +49,16 @@ impl Serializable for u32 {
 
     fn serialized_size(&self) -> usize {
         4
+    }
+}
+
+impl Serializable for u64 {
+    fn serialize(&self, s: &mut Stream) {
+        s.write_u64::<LittleEndian>(*self).unwrap()
+    }
+
+    fn serialized_size(&self) -> usize {
+        8
     }
 }
 
