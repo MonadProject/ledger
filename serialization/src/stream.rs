@@ -1,4 +1,5 @@
 use byteorder::{LittleEndian, WriteBytesExt};
+use compact::Compact;
 use std::io::Error;
 use std::io::Write;
 
@@ -59,6 +60,20 @@ impl Serializable for u64 {
 
     fn serialized_size(&self) -> usize {
         8
+    }
+}
+
+//compact length plus string length
+impl Serializable for String {
+    fn serialize(&self, s: &mut Stream) {
+        let string: &[u8] = self.as_ref();
+        s.write_struct(Compact::from(string.len()));
+        s.write_struct(string)
+    }
+
+    fn serialized_size(&self) -> usize {
+        let string: &[u8] = self.as_ref();
+        Compact::from(string.len()).serialized_size() + string.len()
     }
 }
 
