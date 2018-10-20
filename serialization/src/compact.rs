@@ -1,3 +1,7 @@
+use reader::Deserializable;
+use reader::Error;
+use reader::Reader;
+use std::io;
 use stream::Serializable;
 use stream::Stream;
 
@@ -30,7 +34,7 @@ impl From<u64> for Compact {
 impl Serializable for Compact {
     fn serialize(&self, s: &mut Stream) {
         match self.0 {
-            0...0xfd => {
+            0...0xfc => {
                 s.write_struct(&(self.0 as u8));
             }
             0xfd...0xffff => {
@@ -50,10 +54,23 @@ impl Serializable for Compact {
 
     fn serialized_size(&self) -> usize {
         match self.0 {
-            0...0xfd => 1,
+            0...0xfc => 1,
             0xfd...0xffff => 3,
             0xffff...0xffff_ffff => 5,
             _ => 9
         }
+    }
+}
+
+impl Deserializable for Compact {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        let compact = match reader.read::<u8>()? {
+            i @ 0...0xfc => i.into(),
+            0xfd => reader.read::<u16>()?.into(),
+            0xfe => reader.read::<u32>()?.into(),
+            _ => reader.read::<u64>()?.into(),
+        };
+
+        Ok(compact)
     }
 }
