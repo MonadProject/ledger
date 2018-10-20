@@ -48,6 +48,12 @@ impl Deserializable for u32 {
     }
 }
 
+impl Deserializable for u64 {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        Ok(reader.read_u64::<LittleEndian>().unwrap())
+    }
+}
+
 impl Deserializable for i8 {
     fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
         Ok(reader.read_i8().unwrap())
