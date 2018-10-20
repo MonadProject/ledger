@@ -109,6 +109,11 @@ impl Stream {
         self.buffer.write(bytes).unwrap();
         self
     }
+
+    pub fn write_struct<S>(&mut self, s: &S) -> &mut Self where S: Serializable {
+        s.serialize(self);
+        self
+    }
 }
 
 
@@ -156,5 +161,13 @@ mod tests {
         assert_eq!(stream, Stream {
             buffer: [0].to_vec()
         });
+    }
+
+    #[test]
+    fn test_serialize_struct() {
+        let mut stream = Stream::new();
+        let ui = 1u8;
+        stream.write_struct(&ui);
+        println!("{:#?}", stream);
     }
 }
