@@ -155,7 +155,6 @@ impl Stream {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use stream::Serializable;
@@ -207,6 +206,14 @@ mod tests {
         let mut stream = Stream::new();
         let ui = 1u8;
         stream.write_struct(&ui);
+        println!("{:#?}", stream);
+    }
+
+    #[test]
+    fn test_string() {
+        let mut stream = Stream::new();
+        let s = String::from("renlulu");
+        s.serialize(&mut stream);
         println!("{:#?}", stream);
     }
 }
