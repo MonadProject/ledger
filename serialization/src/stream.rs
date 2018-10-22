@@ -171,6 +171,7 @@ impl Stream {
 mod tests {
     use stream::Serializable;
     use super::Stream;
+    use super::Bytes;
 
     #[test]
     fn test_new_stream() {
@@ -227,5 +228,17 @@ mod tests {
         let s = String::from("renlulu");
         s.serialize(&mut stream);
         println!("{:#?}", stream);
+    }
+
+    #[test]
+    fn test_bytes() {
+        let mut stream = Stream::new();
+        let mut buf = [1u8,0u8,1u8,1u8,1u8,0u8];
+        let mut bytes = Bytes::new();
+        bytes.copy_from_slice(&mut buf[..]);
+
+        println!("origin bytes is: {:?}",bytes);
+        bytes.serialize(&mut stream);
+        println!("{:?}", stream);
     }
 }

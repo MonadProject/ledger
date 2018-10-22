@@ -131,7 +131,10 @@ impl<'a> Reader<&'a [u8]> {
 
 #[cfg(test)] //cargo test -- --nocapture
 mod tests {
+    use super::Bytes;
+    use super::Deserializable;
     use super::deserialize;
+    use super::Reader;
 
     #[test]
     fn test_deserialize() {
@@ -142,5 +145,14 @@ mod tests {
         let r = deserialize::<&[u8], u16>(&[144, 1]).ok().unwrap();
         println!("{}", r);
         assert_eq!(400, r);
+    }
+
+    #[test]
+    fn test_bytes_test_deserialize() {
+        let buf = [6u8, 1, 0, 1, 1, 1, 0];
+        let mut reader = Reader::from_bytes(&buf);
+        let result = Bytes::deserialize(&mut reader).unwrap();
+        println!("{:?}", result);
+        assert_eq!(vec![1, 0, 1, 1, 1, 0], result.take());
     }
 }
