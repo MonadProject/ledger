@@ -1,3 +1,4 @@
+use basictype::bytes::Bytes;
 use byteorder::{LittleEndian, WriteBytesExt};
 use compact::Compact;
 use std::io::Error;
@@ -87,6 +88,17 @@ impl<'a> Serializable for &'a str {
     fn serialized_size(&self) -> usize {
         let string: &[u8] = self.as_bytes();
         Compact::from(string.len()).serialized_size() + string.len()
+    }
+}
+
+impl Serializable for Bytes {
+    fn serialize(&self, s: &mut Stream) {
+        s.write_struct(&Compact::from(self.length()));
+        s.write_slice(self.get_inner());
+    }
+
+    fn serialized_size(&self) -> usize {
+        unimplemented!()
     }
 }
 

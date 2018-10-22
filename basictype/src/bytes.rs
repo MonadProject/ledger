@@ -26,6 +26,10 @@ impl Bytes {
     pub fn length(&self) -> usize {
         self.bytes.len()
     }
+
+    pub fn get_inner(&self) -> &Vec<u8> {
+        &self.bytes
+    }
 }
 
 #[cfg(test)]
