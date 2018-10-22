@@ -27,7 +27,11 @@ impl Bytes {
         self.bytes.len()
     }
 
-    pub fn get_inner(&self) -> &Vec<u8> {
+    pub fn get_inner(&mut self) -> &mut Vec<u8> {
+        &mut self.bytes
+    }
+
+    pub fn get_inner_unmut(&self) -> &Vec<u8> {
         &self.bytes
     }
 

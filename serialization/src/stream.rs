@@ -94,7 +94,7 @@ impl<'a> Serializable for &'a str {
 impl Serializable for Bytes {
     fn serialize(&self, s: &mut Stream) {
         s.write(&Compact::from(self.length()));
-        s.write_slice(self.get_inner());
+        s.write_slice(self.get_inner_unmut());
     }
 
     fn serialized_size(&self) -> usize {

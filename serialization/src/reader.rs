@@ -97,9 +97,11 @@ impl Deserializable for Bytes {
     fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
         let compact = reader.read::<Compact>()?;
         let mut bytes = Bytes::new_with_length(compact.into());
-        let mut buf = &mut [0u8][..];
-        reader.read_exact(buf);
-        bytes.copy_from_slice(buf);
+        reader.read_exact(bytes.get_inner().as_mut_slice());
+
+//        let mut buf = &mut [0u8][..];
+//        reader.read_exact(buf);
+//        bytes.copy_from_slice(buf);
         Ok(bytes)
     }
 }
