@@ -7,6 +7,7 @@ pub struct Reader<T> {
     inner: T
 }
 
+#[derive(Debug, PartialEq)]
 pub enum Error {
     ReadDataErr
 }
@@ -103,7 +104,7 @@ impl<T> io::Read for Reader<T> where T: io::Read {
 }
 
 impl<'a> Reader<&'a [u8]> {
-    fn from_bytes(bytes: &'a [u8]) -> Self {
+    pub fn from_bytes(bytes: &'a [u8]) -> Self {
         Reader {
             inner: bytes
         }

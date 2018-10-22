@@ -14,9 +14,19 @@ pub struct Transaction {
 }
 
 // former transaction output, now input, more detail please google utxo pattern
+#[derive(Debug)]
 pub struct OutPoint {
     pub output_hash: hash::Hash256,
     pub index: u32,
+}
+
+impl OutPoint {
+    fn new() -> Self {
+        OutPoint {
+            output_hash: hash::Hash256::default(),
+            index: 0u32,
+        }
+    }
 }
 
 pub struct Input {
@@ -52,6 +62,44 @@ impl Deserializable for OutPoint {
             index: reader.read::<u32>()?,
         };
         Ok(outpoint)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use serialization::compact;
+    use serialization::reader::Deserializable;
+    use serialization::stream::Serializable;
+    use super::{Error, hash, OutPoint, Reader, Stream};
+
+    #[test]
+    fn test_outpoint_serializable() {
+        let hex_string: &'static str = "0000000000000000000383fb0c96397da185a378d04cf7d451ef81a7b446fbb7";
+
+        let outpoint = OutPoint {
+            output_hash: hash::Hash256::from_reversed_string(hex_string),
+            index: 1u32,
+        };
+
+        let mut stream = Stream::new();
+
+        outpoint.serialize(&mut stream);
+
+        println!("{:?}", stream);
+    }
+
+    #[test]
+    fn test_outpoint_deserialize() {
+        let buffer: Vec<u8> = vec![183, 251, 70, 180, 167, 129, 239, 81, 212, 247, 76, 208, 120, 163, 133, 161, 125, 57, 150, 12, 251, 131, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0];
+        let mut reader = Reader::from_bytes(&buffer);
+        let outpoint = OutPoint {
+            output_hash: reader.read().unwrap(),
+            index: reader.read().unwrap(),
+        };
+
+        println!("{:?}", outpoint);
+
+        assert_eq!(outpoint.output_hash.to_reversed_string(), "0000000000000000000383fb0c96397da185a378d04cf7d451ef81a7b446fbb7");
     }
 }
 
