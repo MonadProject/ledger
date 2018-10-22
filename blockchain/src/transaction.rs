@@ -29,20 +29,6 @@ impl OutPoint {
     }
 }
 
-pub struct Input {
-    pub previous_output: hash::Hash256,
-    pub script_length: u64,
-    //The length of the signature script
-    pub signature_script: Bytes,
-    pub sequence: u32,
-
-}
-
-pub struct Output {
-    pub value: u64,
-    pub pk_script_length: u64,
-    pub pk_script: Bytes,
-}
 
 impl Serializable for OutPoint {
     fn serialize(&self, s: &mut Stream) {
@@ -64,6 +50,30 @@ impl Deserializable for OutPoint {
         Ok(outpoint)
     }
 }
+
+pub struct Input {
+    pub previous_output: OutPoint,
+    pub signature_script: Bytes,
+    pub sequence: u32,
+}
+
+impl Serializable for Input {
+    fn serialize(&self, s: &mut Stream) {
+        s.write(&self.previous_output);
+        s.write(&self.signature_script);
+        s.write(&self.sequence);
+    }
+
+    fn serialized_size(&self) -> usize {
+        unimplemented!()
+    }
+}
+
+pub struct Output {
+    pub value: u64,
+    pub pk_script: Bytes,
+}
+
 
 #[cfg(test)]
 mod tests {
