@@ -1,5 +1,5 @@
-#[derive(Default,Debug,PartialEq)]
-pub struct Bytes{
+#[derive(Default, Debug, PartialEq)]
+pub struct Bytes {
     bytes: Vec<u8>,
 }
 
@@ -12,7 +12,7 @@ impl Bytes {
         let mut vec: Vec<u8> = Vec::new();
         while length != 0 {
             vec.push(0u8);
-            length = length -1;
+            length = length - 1;
         }
         Bytes {
             bytes: vec
@@ -30,7 +30,14 @@ impl Bytes {
     pub fn get_inner(&self) -> &Vec<u8> {
         &self.bytes
     }
+
+    pub fn copy_from_slice(&mut self, slice: &mut [u8]) {
+        for i in slice {
+            self.bytes.push(*i);
+        }
+    }
 }
+
 
 #[cfg(test)]
 mod tests {
@@ -39,7 +46,7 @@ mod tests {
     #[test]
     fn test_new() {
         let b = Bytes::new();
-        assert_eq!(b,Bytes {
+        assert_eq!(b, Bytes {
             bytes: Vec::new()
         })
     }
@@ -47,6 +54,6 @@ mod tests {
     #[test]
     fn test_new_with_length() {
         let b = Bytes::new_with_length(5);
-        assert_eq!(b.bytes.len(),5);
+        assert_eq!(b.bytes.len(), 5);
     }
 }

@@ -69,6 +69,8 @@ impl Serializable for Input {
     }
 }
 
+
+
 pub struct Output {
     pub value: u64,
     pub pk_script: Bytes,

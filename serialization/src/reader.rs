@@ -1,5 +1,8 @@
+use basictype::bytes::Bytes;
 use byteorder::{LittleEndian, ReadBytesExt};
+use compact::Compact;
 use std::io;
+use std::io::Write;
 use std::marker;
 
 
@@ -88,6 +91,19 @@ impl Deserializable for f64 {
         Ok(reader.read_f64::<LittleEndian>().unwrap())
     }
 }
+
+//todo: feel something wrong, please test it carefully!!
+impl Deserializable for Bytes {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        let compact = reader.read::<Compact>()?;
+        let mut bytes = Bytes::new_with_length(compact.into());
+        let mut buf = &mut [0u8][..];
+        reader.read_exact(buf);
+        bytes.copy_from_slice(buf);
+        Ok(bytes)
+    }
+}
+
 
 pub fn deserialize<R, T>(buffer: R) -> Result<T, Error> where R: io::Read, T: Deserializable {
     let mut reader = Reader::from_buffer(buffer);

@@ -1,6 +1,9 @@
-
 fn main() {
-    let a = String::from("aa");
-    let b= &a[1..];
-    println!("{}",b);
+    let mut vec = vec![];
+    let slice = &[1u8; 10][..];
+    for i in slice {
+        vec.push(*i);
+    }
+    println!("{:?}", vec);
+    println!("{:?}",slice);
 }
