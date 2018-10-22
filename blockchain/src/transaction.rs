@@ -1,14 +1,15 @@
 use basictype::bytes::Bytes;
 use basictype::hash;
-use serialization::stream::Serializable;
-use serialization::stream::Stream;
+use serialization::reader::{Deserializable, Error, Reader};
+use serialization::stream::{Serializable, Stream};
+use std::io;
 
 // see https://en.bitcoin.it/wiki/Protocol_documentation#tx
 
 pub struct Transaction {
     pub version: i32,
-    pub tx_in: Vec<input>,
-    pub tx_out: Vec<output>,
+    pub tx_in: Vec<Input>,
+    pub tx_out: Vec<OutPoint>,
     pub witnesses: Vec<Bytes>,
 }
 
@@ -35,12 +36,22 @@ pub struct Output {
 
 impl Serializable for OutPoint {
     fn serialize(&self, s: &mut Stream) {
-        s.write_struct(self.output_hash);
-        s.write_struct(self.index);
+        s.write_struct(&self.output_hash);
+        s.write_struct(&self.index);
     }
 
     fn serialized_size(&self) -> usize {
         36
+    }
+}
+
+impl Deserializable for OutPoint {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        let outpoint = OutPoint {
+            output_hash: reader.read::<hash::Hash256>()?,
+            index: reader.read::<u32>()?,
+        };
+        Ok(outpoint)
     }
 }
 

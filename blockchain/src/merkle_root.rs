@@ -8,6 +8,6 @@ fn concatenate<T>(a: T, b: T) -> Hash512 where T: AsRef<Hash256> {
     h521
 }
 
-fn calculate_merge_hash<T>(a: T, b:T) -> Hash256 where T: AsRef<Hash256> {
-
-}
+//fn calculate_merge_hash<T>(a: T, b:T) -> Hash256 where T: AsRef<Hash256> {
+//
+//}
