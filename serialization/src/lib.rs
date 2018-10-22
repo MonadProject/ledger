@@ -1,9 +1,9 @@
 extern crate byteorder;
 extern crate basictype;
 
-mod reader;
-mod stream;
-mod compact;
+pub mod reader;
+pub mod stream;
+pub mod compact;
 
 #[cfg(test)]
 mod tests {

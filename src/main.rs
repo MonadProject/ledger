@@ -1,8 +1,6 @@
-struct Hello(u8);
 
 fn main() {
-    let hello = Hello(1u8);
-    match  hello.0 {
-        i => { println!("{}",i)}
-    }
+    let a = String::from("aa");
+    let b= &a[1..];
+    println!("{}",b);
 }

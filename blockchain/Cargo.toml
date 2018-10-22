@@ -6,3 +6,4 @@ authors = ["xiaohuo <xiaohuo200@gmail.com>"]
 [dependencies]
 basictype = { path = "../basictype"}
 crypto = { path = "../crypto" }
+serialization = { path = "../serialization" }

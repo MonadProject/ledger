@@ -1,5 +1,6 @@
 extern crate basictype;
 extern crate crypto;
+extern crate serialization;
 
 mod block_header;
 mod block;
