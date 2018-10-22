@@ -98,7 +98,7 @@ impl Serializable for Bytes {
     }
 
     fn serialized_size(&self) -> usize {
-        unimplemented!()
+        Compact::from(self.length()).serialized_size() + self.length()
     }
 }
 
