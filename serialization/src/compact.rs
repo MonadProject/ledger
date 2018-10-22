@@ -1,10 +1,10 @@
+use basictype::hash::Hash256;
 use reader::Deserializable;
 use reader::Error;
 use reader::Reader;
 use std::io;
 use stream::Serializable;
 use stream::Stream;
-use basictype::hash::Hash256;
 
 pub struct Compact(u64);
 
@@ -35,6 +35,12 @@ impl From<u64> for Compact {
 impl From<usize> for Compact {
     fn from(i: usize) -> Self {
         Compact(i as u64)
+    }
+}
+
+impl From<Compact> for usize {
+    fn from(c: Compact) -> Self {
+        c.0 as usize
     }
 }
 
