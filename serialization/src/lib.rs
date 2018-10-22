@@ -1,4 +1,5 @@
 extern crate byteorder;
+extern crate basictype;
 
 mod reader;
 mod stream;

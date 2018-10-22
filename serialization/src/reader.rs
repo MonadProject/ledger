@@ -26,6 +26,10 @@ impl<R> Reader<R> where R: io::Read {
     pub fn read<T>(&mut self) -> Result<T, Error> where T: Deserializable {
         T::deserialize(self)
     }
+
+    pub fn read_exact(&mut self, buf: &mut [u8]) {
+        io::Read::read_exact(self, buf);
+    }
 }
 
 
