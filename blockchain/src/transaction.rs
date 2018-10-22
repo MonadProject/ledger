@@ -36,8 +36,8 @@ pub struct Output {
 
 impl Serializable for OutPoint {
     fn serialize(&self, s: &mut Stream) {
-        s.write_struct(&self.output_hash);
-        s.write_struct(&self.index);
+        s.write(&self.output_hash);
+        s.write(&self.index);
     }
 
     fn serialized_size(&self) -> usize {

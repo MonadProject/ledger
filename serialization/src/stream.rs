@@ -68,7 +68,7 @@ impl Serializable for u64 {
 impl Serializable for String {
     fn serialize(&self, s: &mut Stream) {
         let string: &[u8] = self.as_ref();
-        s.write_struct(&Compact::from(string.len()));
+        s.write(&Compact::from(string.len()));
         s.write_slice(string);
     }
 
@@ -81,7 +81,7 @@ impl Serializable for String {
 impl<'a> Serializable for &'a str {
     fn serialize(&self, s: &mut Stream) {
         let string = self.as_bytes();
-        s.write_struct(&Compact::from(string.len()));
+        s.write(&Compact::from(string.len()));
         s.write_slice(string);
     }
 
@@ -93,7 +93,7 @@ impl<'a> Serializable for &'a str {
 
 impl Serializable for Bytes {
     fn serialize(&self, s: &mut Stream) {
-        s.write_struct(&Compact::from(self.length()));
+        s.write(&Compact::from(self.length()));
         s.write_slice(self.get_inner());
     }
 
@@ -161,7 +161,7 @@ impl Stream {
         self
     }
 
-    pub fn write_struct<S>(&mut self, s: &S) -> &mut Self where S: Serializable {
+    pub fn write<S>(&mut self, s: &S) -> &mut Self where S: Serializable {
         s.serialize(self);
         self
     }
@@ -217,7 +217,7 @@ mod tests {
     fn test_serialize_struct() {
         let mut stream = Stream::new();
         let ui = 1u8;
-        stream.write_struct(&ui);
+        stream.write(&ui);
         println!("{:#?}", stream);
     }
 

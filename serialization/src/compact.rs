@@ -42,19 +42,19 @@ impl Serializable for Compact {
     fn serialize(&self, s: &mut Stream) {
         match self.0 {
             0...0xfc => {
-                s.write_struct(&(self.0 as u8));
+                s.write(&(self.0 as u8));
             }
             0xfd...0xffff => {
-                s.write_struct(&0xfd);
-                s.write_struct(&(self.0 as u16));
+                s.write(&0xfd);
+                s.write(&(self.0 as u16));
             }
             0xffff...0xffff_ffff => {
-                s.write_struct(&0xfe);
-                s.write_struct(&(self.0 as u32));
+                s.write(&0xfe);
+                s.write(&(self.0 as u32));
             }
             _ => {
-                s.write_struct(&0xff);
-                s.write_struct(&(self.0 as u64));
+                s.write(&0xff);
+                s.write(&(self.0 as u64));
             }
         }
     }
