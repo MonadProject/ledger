@@ -2,6 +2,7 @@
 
 use basictype::hash;
 
+// see https://en.bitcoin.it/wiki/Protocol_documentation#Block_Headers
 pub struct BlockHeader {
     pub version: u32,
     pub previous_block_header_hash: hash::Hash256,
