@@ -57,6 +57,7 @@ pub struct Input {
     pub sequence: u32,
 }
 
+
 impl Serializable for Input {
     fn serialize(&self, s: &mut Stream) {
         s.write(&self.previous_output);
@@ -69,6 +70,17 @@ impl Serializable for Input {
     }
 }
 
+impl Deserializable for Input {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        let input = Input {
+            previous_output: reader.read()?,
+            signature_script: reader.read()?,
+            sequence: reader.read()?,
+        };
+
+        Ok(input)
+    }
+}
 
 
 pub struct Output {
