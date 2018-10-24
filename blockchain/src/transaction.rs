@@ -1,5 +1,6 @@
 use basictype::bytes::Bytes;
 use basictype::hash;
+use serialization::compact::Compact;
 use serialization::reader::{Deserializable, Error, Reader};
 use serialization::stream::{Serializable, Stream};
 use std::io;
@@ -86,6 +87,17 @@ impl Deserializable for Input {
 pub struct Output {
     pub value: u64,
     pub pk_script: Bytes,
+}
+
+impl Serializable for Output {
+    fn serialize(&self, s: &mut Stream) {
+        s.write(&self.value);
+        s.write(&self.pk_script);
+    }
+
+    fn serialized_size(&self) -> usize {
+        8 + Compact::from(&self.pk_script.length()).serialized_size()
+    }
 }
 
 
