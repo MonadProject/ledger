@@ -100,6 +100,15 @@ impl Serializable for Output {
     }
 }
 
+impl Deserializable for Output {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        let output = Output {
+            value: reader.read()?,
+            pk_script: reader.read()?,
+        };
+        Ok(output)
+    }
+}
 
 #[cfg(test)]
 mod tests {
