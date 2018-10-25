@@ -20,8 +20,7 @@ fn calculate_merge_root<T>(input: &[T]) -> Hash256 where T: AsRef<Hash256> {
     let mut vec = Vec::new();
     let index = 0;
     while index + 1 < input.len() {
-        //a little weird，never mind
-        let node = calculate_merge_hash(&input[index], &input[index + 1]);
+        let node = calculate_merge_hash(input[index].as_ref(), input[index + 1].as_ref());
         vec.push(node);
     }
 
