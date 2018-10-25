@@ -1,3 +1,3 @@
 mod context;
-mod connection;
+mod connections;
 mod peer;
