@@ -96,7 +96,7 @@ impl Serializable for Output {
     }
 
     fn serialized_size(&self) -> usize {
-        8 + Compact::from(&self.pk_script.length()).serialized_size()
+        8 + Compact::from(self.pk_script.length()).serialized_size()
     }
 }
 
