@@ -31,3 +31,19 @@ fn calculate_merge_root<T>(input: &[T]) -> Hash256 where T: AsRef<Hash256> {
 
     calculate_merge_root(&vec)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::calculate_merge_root;
+    use super::Hash256;
+    use super::Hash512;
+
+    #[test]
+    fn test_one_element() {
+        let hash = Hash256::from_reversed_string("c06fbab289f723c6261d3030ddb6be121f7d2508d77862bb1e484f5cd7f92b25");
+        let vec = vec![hash];
+        let result = calculate_merge_root(&vec);
+        println!("{}", result.to_reversed_string());
+        assert_eq!("c06fbab289f723c6261d3030ddb6be121f7d2508d77862bb1e484f5cd7f92b25", result.to_reversed_string());
+    }
+}
