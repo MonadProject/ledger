@@ -55,6 +55,16 @@ mod tests {
         let vec = vec![hash_a, hash_b];
         let result = calculate_merge_root(&vec);
         println!("{}", result.to_reversed_string());
-        assert_eq!("8fb300e3fdb6f30a4c67233b997f99fdd518b968b9a3fd65857bfe78b2600719",result.to_reversed_string());
+        assert_eq!("8fb300e3fdb6f30a4c67233b997f99fdd518b968b9a3fd65857bfe78b2600719", result.to_reversed_string());
+    }
+
+    #[test]
+    fn test_three_elements() {
+        let hash_a = Hash256::from_reversed_string("c06fbab289f723c6261d3030ddb6be121f7d2508d77862bb1e484f5cd7f92b25");
+        let hash_b = Hash256::from_reversed_string("5a4ebf66822b0b2d56bd9dc64ece0bc38ee7844a23ff1d7320a88c5fdb2ad3e2");
+        let hash_c = Hash256::from_reversed_string("8fb300e3fdb6f30a4c67233b997f99fdd518b968b9a3fd65857bfe78b2600719");
+        let vec = vec![hash_a, hash_b, hash_c];
+        let result = calculate_merge_root(&vec);
+        println!("{}", result.to_reversed_string());
     }
 }
