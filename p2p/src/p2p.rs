@@ -9,11 +9,13 @@ use tokio_io::io::{read_exact, ReadExact};
 fn start_server(address: SocketAddr, handle: &Handle) {
     let socket = TcpListener::bind(&address, handle).unwrap();
     println!("Listening on: {}", address);
+    //答应我，这是一个Future
     let server = socket.incoming()
         .map_err(|e| println!("failed to accept socket; error = {:?}", e))
         .for_each(move |socket| {
             Ok(())
         });
+    //我查了，spawn 的中文意思是"卵" :)
     handle.spawn(server);
 }
 
