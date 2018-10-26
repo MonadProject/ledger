@@ -6,4 +6,5 @@
 /blockchain/target
 /cmdtools/target
 /serialization/target
+/p2p/target
 .idea/

@@ -4,4 +4,7 @@ version = "0.1.0"
 authors = ["xiaohuo <xiaohuo200@gmail.com>"]
 
 [dependencies]
-tokio = "0.1"
+tokio-core = "0.1.6"
+tokio-io = "0.1.1"
+futures = "0.1"
+futures-cpupool = "0.1"

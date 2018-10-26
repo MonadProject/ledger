@@ -1,5 +1,5 @@
-use peer::Peer;
-use peer::PeerId;
+use socket::peer::Peer;
+use socket::peer::PeerId;
 use std::collections::HashMap;
 use std::net::TcpStream;
 use std::sync::Arc;

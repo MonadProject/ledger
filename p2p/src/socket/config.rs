@@ -1,4 +1,9 @@
+use std::net::SocketAddr;
+use std::net;
+use std::path;
+
 pub struct Services(u64);
+pub type Magic = u32;
 
 pub struct NetWorkConfig {
     pub protocol_version: u32,
