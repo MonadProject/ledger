@@ -7,4 +7,5 @@
 /cmdtools/target
 /serialization/target
 /p2p/target
+/network/target
 .idea/
