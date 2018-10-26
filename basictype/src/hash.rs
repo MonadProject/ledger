@@ -110,7 +110,8 @@ macro_rules! impl_hash {
         }
     }
 }
-
+impl_hash!(Hash32,4);
+impl_hash!(Hash96,12);
 impl_hash!(Hash256, 32);
 impl_hash!(Hash512, 64);
 
@@ -145,7 +146,7 @@ mod tests {
     fn test_from_u8() {
         let slice = [0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 1u8, 1u8, 1u8, 1u8];
         let h256 = Hash256::from(&slice[..]);
-        println!("{:?}",h256);
+        println!("{:?}", h256);
     }
 
     #[test]

@@ -1,4 +1,26 @@
 [[package]]
-name = "protocol"
+name = "basictype"
+version = "0.1.0"
+dependencies = [
+ "rustc-hex 2.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "network"
 version = "0.1.0"
 
+[[package]]
+name = "protocol"
+version = "0.1.0"
+dependencies = [
+ "basictype 0.1.0",
+ "network 0.1.0",
+]
+
+[[package]]
+name = "rustc-hex"
+version = "2.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[metadata]
+"checksum rustc-hex 2.0.1 (registry+https://github.com/rust-lang/crates.io-index)" = "403bb3a286107a04825a5f82e1270acc1e14028d3d554d7a1e08914549575ab8"

@@ -4,3 +4,5 @@ version = "0.1.0"
 authors = ["xiaohuo <xiaohuo200@gmail.com>"]
 
 [dependencies]
+network = {path ="../network" }
+basictype = {path="../basictype"}
