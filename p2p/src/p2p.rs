@@ -22,15 +22,15 @@ fn start_server(address: SocketAddr, handle: &Handle) {
 
 #[cfg(test)]
 mod tests {
-    use event_loop;
+    use reactor;
     use std::net::SocketAddr;
     use super::start_server;
 
     #[test]
     fn test_start_serer() {
         let address = "127.0.0.1:8080".parse::<SocketAddr>().unwrap();
-        let mut el = event_loop::event_loop();
+        let mut el = reactor::reactor();
         start_server(address, &el.handle());
-        el.run(event_loop::forever()).unwrap();
+        el.run(reactor::forever()).unwrap();
     }
 }

@@ -1,7 +1,7 @@
 use futures::{empty, Empty};
 use tokio_core::reactor::Core;
 
-pub fn event_loop() -> Core {
+pub fn reactor() -> Core {
     Core::new().unwrap()
 }
 
