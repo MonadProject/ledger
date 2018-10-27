@@ -7,7 +7,7 @@ use std::io;
 use std::str::FromStr;
 
 
-#[derive(Debug)]
+#[derive(Debug,PartialEq)]
 pub struct Command(Hash96);
 
 impl Serializable for Command {
@@ -24,6 +24,12 @@ impl Deserializable for Command {
     fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
         let hash = reader.read::<Hash96>().unwrap();
         Ok(Command(hash))
+    }
+}
+
+impl Default for Command {
+    fn default() -> Self {
+        Command(Hash96::default())
     }
 }
 
@@ -48,7 +54,7 @@ mod tests {
     fn test_from_hex_string() {
         let string = String::from("76657273696f6e0000000000");
         let command = Command::from_hex_string(&string);
-        println!("{:?}",command);
+        println!("{:?}", command);
     }
 
     #[test]
