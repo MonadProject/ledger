@@ -7,6 +7,12 @@
 - [x] 实现 merkle tree 算法
 - [ ] 定义核心数据结构（Block Transaction等）(进行中)
 - [ ] 兼容比特币协议的P2P通信模块（进行中）
+    - [x] 集成异步IO 框架tokio
+    - [x] Future: read header
+- [ ] 兼容比特币协议的P2P通信协议 (进行中)
+    - [x] 定义command 数据结构，序列化、反序列化
+    - [x] 定义MessageHeader 数据结构，序列化、反序列化
+    - [ ] 定义Payload 类型（进行中）
 
 ## 简介
 
