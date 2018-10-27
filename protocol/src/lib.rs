@@ -4,3 +4,4 @@ extern crate serialization;
 
 pub mod message;
 pub mod common;
+pub mod types;
