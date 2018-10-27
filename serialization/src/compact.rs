@@ -1,4 +1,4 @@
-use basictype::hash::Hash256;
+use basictype::hash::{Hash256, Hash96};
 use reader::Deserializable;
 use reader::Error;
 use reader::Reader;
@@ -112,3 +112,4 @@ macro_rules! impl_hash_serialize_and_deserialize {
 }
 
 impl_hash_serialize_and_deserialize!(Hash256,32);
+impl_hash_serialize_and_deserialize!(Hash96,12);
