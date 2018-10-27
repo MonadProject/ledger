@@ -1,0 +1,1 @@
+type Services = u64;
