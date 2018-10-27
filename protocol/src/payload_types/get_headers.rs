@@ -9,6 +9,8 @@
 
 use payload_types::version::Version;
 
+use basictype::hash::Hash256;
+
 pub struct GetHeaders{
     pub version: Version,
     pub block_locator_hashes: Hash256,

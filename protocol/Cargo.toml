@@ -7,3 +7,4 @@ authors = ["xiaohuo <xiaohuo200@gmail.com>"]
 network = {path ="../network" }
 basictype = {path="../basictype"}
 serialization = {path="../serialization"}
+blockchain = {path="../blockchain"}

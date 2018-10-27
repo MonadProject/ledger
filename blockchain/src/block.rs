@@ -3,7 +3,7 @@
 use block_header::BlockHeader;
 use transaction::Transaction;
 
-pub struct Block {
+pub struct MonadBlock {
     pub block_header: BlockHeader,
     pub transactions: Vec<Transaction>,
 }

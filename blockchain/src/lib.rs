@@ -2,10 +2,10 @@ extern crate basictype;
 extern crate crypto;
 extern crate serialization;
 
-mod block_header;
-mod block;
-mod transaction;
-mod merkle_root;
+pub mod block_header;
+pub mod block;
+pub mod transaction;
+pub mod merkle_root;
 
 
 #[cfg(test)]
