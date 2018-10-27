@@ -8,6 +8,6 @@
 /serialization/target
 /p2p/target
 /network/target
-/async_io/target
+/io_future/target
 /protocol/target
 .idea/

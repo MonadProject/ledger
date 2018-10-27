@@ -1,7 +1,5 @@
 use futures::stream::Stream;
 use std::net::SocketAddr;
-use tokio::io;
-use tokio::prelude::*;
 use tokio_core::net::TcpListener;
 use tokio_core::reactor::{Handle, Interval, Remote, Timeout};
 use tokio_io::io::{read_exact, ReadExact};
