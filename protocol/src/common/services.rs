@@ -1,1 +1,1 @@
-type Services = u64;
+pub struct Services(u64);
