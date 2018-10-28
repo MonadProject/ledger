@@ -20,3 +20,5 @@ pub mod filterload;
 pub mod filteradd;
 pub mod filterclear;
 pub mod merkleblock;
+pub mod sendheaders;
+pub mod feefilter;
