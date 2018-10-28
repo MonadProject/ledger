@@ -16,3 +16,7 @@ pub mod mempool;
 pub mod ping;
 pub mod pong;
 pub mod reject;
+pub mod filterload;
+pub mod filteradd;
+pub mod filterclear;
+pub mod merkleblock;
