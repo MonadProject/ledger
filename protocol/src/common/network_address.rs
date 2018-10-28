@@ -1,13 +1,16 @@
 use common::ip_address::IpAddress;
 use common::services::Services;
+use serialization::reader::{Deserializable, Reader};
+use serialization::reader::Error;
 use serialization::stream::{Serializable, Stream};
+use std::io;
 
 // see https://en.bitcoin.it/wiki/Protocol_documentation#Network_address
 #[derive(Debug)]
 pub struct Network_Address {
-    services: Services,
-    ipAddress: IpAddress,
-    port: u16,
+    pub services: Services,
+    pub ipAddress: IpAddress,
+    pub port: u16,
 }
 
 impl Serializable for Network_Address {
@@ -25,7 +28,18 @@ impl Serializable for Network_Address {
     }
 
     fn serialized_size(&self) -> usize {
-        unimplemented!()
+        8 + 16 + 2
+    }
+}
+
+impl Deserializable for Network_Address {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        let network_address = Network_Address {
+            services: reader.read()?,
+            ipAddress: reader.read()?,
+            port: reader.read()?,
+        };
+        Ok(network_address)
     }
 }
 
@@ -33,8 +47,10 @@ impl Serializable for Network_Address {
 mod tests {
     use std::net::IpAddr;
     use std::net::Ipv4Addr;
+    use super::Deserializable;
     use super::IpAddress;
     use super::Network_Address;
+    use super::Reader;
     use super::Serializable;
     use super::Services;
     use super::Stream;
@@ -51,5 +67,20 @@ mod tests {
         network_address.serialize(&mut stream);
 
         println!("{:?}", stream);
+    }
+
+    #[test]
+    fn test_deserialize() {
+        let buffer = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 127, 0, 0, 1, 191, 99];
+        let mut reader = Reader::from_bytes(&buffer);
+        let network_address = Network_Address {
+            services: reader.read().unwrap(),
+            ipAddress: reader.read().unwrap(),
+            port: reader.read().unwrap(),
+        };
+
+        println!("{:?}", network_address);
+
+        assert_eq!(network_address.port, 25535u16);
     }
 }
