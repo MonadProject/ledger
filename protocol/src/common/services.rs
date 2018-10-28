@@ -1,4 +1,7 @@
+use serialization::reader::{Deserializable, Reader};
+use serialization::reader::Error;
 use serialization::stream::{Serializable, Stream};
+use std::io;
 use std::ops;
 use std::ops::Deref;
 
@@ -18,6 +21,13 @@ impl Serializable for Services {
 
     fn serialized_size(&self) -> usize {
         8
+    }
+}
+
+impl Deserializable for Services {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        let inner = reader.read::<u64>().unwrap();
+        Ok(Services(inner))
     }
 }
 
