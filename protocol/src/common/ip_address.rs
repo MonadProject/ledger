@@ -1,7 +1,14 @@
 use serialization::stream::{Serializable, Stream};
 use std::net::IpAddr;
 
+#[derive(Debug)]
 pub struct IpAddress(IpAddr);
+
+impl IpAddress {
+    pub fn from_ip_addr(ip_addr: IpAddr) -> Self {
+        IpAddress(ip_addr)
+    }
+}
 
 
 //Pv6 address. Network byte order. The original client only supported IPv4 and only read the last 4 bytes to get the IPv4 address.

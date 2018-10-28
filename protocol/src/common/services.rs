@@ -2,7 +2,14 @@ use serialization::stream::{Serializable, Stream};
 use std::ops;
 use std::ops::Deref;
 
+#[derive(Debug)]
 pub struct Services(u64);
+
+impl Services {
+    pub fn from_u64(data: u64) -> Self {
+        Services(data)
+    }
+}
 
 impl Serializable for Services {
     fn serialize(&self, s: &mut Stream) {
