@@ -1,5 +1,10 @@
+use serialization::reader::{Deserializable, Reader};
+use serialization::reader::Error;
 use serialization::stream::{Serializable, Stream};
+use std::io;
 use std::net::IpAddr;
+use std::net::Ipv4Addr;
+use std::net::Ipv6Addr;
 
 #[derive(Debug)]
 pub struct IpAddress(IpAddr);
@@ -8,6 +13,11 @@ impl IpAddress {
     pub fn from_ip_addr(ip_addr: IpAddr) -> Self {
         IpAddress(ip_addr)
     }
+}
+
+pub fn deserialize_u16_from_slice(buffer: &[u8]) -> u16 {
+    let mut reader = Reader::from_bytes(&buffer);
+    reader.read().unwrap()
 }
 
 
@@ -40,6 +50,21 @@ impl Serializable for IpAddress {
     }
 }
 
+impl Deserializable for IpAddress {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        let mut buffer = [0u8; 16];
+        reader.read_exact(&mut buffer);
+        match buffer[0..12] {
+            [0u8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff] => Ok(IpAddress(IpAddr::V4(Ipv4Addr::new(buffer[12], buffer[13], buffer[14], buffer[15])))),
+
+            _ => Ok(IpAddress(IpAddr::V6(Ipv6Addr::new(deserialize_u16_from_slice(&buffer[0..2]), deserialize_u16_from_slice(&buffer[2..4]), deserialize_u16_from_slice(&buffer[4..6]), deserialize_u16_from_slice(&buffer[6..8]),
+                                                       deserialize_u16_from_slice(&buffer[8..10]), deserialize_u16_from_slice(&buffer[10..12]), deserialize_u16_from_slice(&buffer[12..14]), deserialize_u16_from_slice(&buffer[14..16]))))),
+        }
+    }
+}
+
+impl IpAddress {}
+
 
 #[cfg(test)]
 mod tests {
@@ -49,6 +74,8 @@ mod tests {
     use super::IpAddress;
     use super::Serializable;
     use super::Stream;
+    use super::Reader;
+    use super::Deserializable;
 
     #[test]
     fn test_serialize_ipv4() {
@@ -67,5 +94,23 @@ mod tests {
         ipAddress.serialize(&mut stream);
         println!("{:?}", stream);
     }
+
+    #[test]
+    fn test_deserializable_for_ipv4_address() {
+        let buffer = [0u8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 127, 0, 0, 1];
+        let mut reader =  Reader::from_bytes(&buffer);
+        let ip_address = IpAddress::deserialize(&mut reader);
+        println!("{:?}",ip_address);
+    }
+
+    //todo try to verify this test
+    #[test]
+    fn test_deserializable_for_ipv6_address() {
+        let buffer = [0u8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1];
+        let mut reader =  Reader::from_bytes(&buffer);
+        let ip_address = IpAddress::deserialize(&mut reader);
+        println!("{:?}",ip_address);
+    }
+
 }
 
