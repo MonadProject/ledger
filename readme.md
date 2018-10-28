@@ -10,9 +10,38 @@
     - [x] 集成异步IO 框架tokio
     - [x] Future: read header
 - [ ] 兼容比特币协议的P2P通信协议 (进行中)
-    - [x] 定义command 数据结构，序列化、反序列化
+    - [ ] commin 数据结构，序列化、反序列化
+        - [x] command
+        - [ ] inventory_vectors
+        - [x] ip_address
+        - [x] network_address
+        - [x] services
+        
     - [x] 定义MessageHeader 数据结构，序列化、反序列化
-    - [ ] 定义Payload 类型（进行中）
+    - [x] 定义Payload 类型
+        - [x] address
+        - [x] block
+        - [x] feefilter
+        - [x] filteradd
+        - [x] filterclear
+        - [x] filterload
+        - [x] get_addr
+        - [x] get_blocks
+        - [x] get_data
+        - [x] headers
+        - [x] inv
+        - [x] mempool
+        - [x] merkleblock
+        - [x] not_found
+        - [x] ping
+        - [x] pong
+        - [x] reject
+        - [x] sendheaders
+        - [x] tx
+        - [x] verack
+        - [x] version
+    - [ ] 为Payload 实现序列化和反序列化方法
+       
 
 ## 简介
 
