@@ -9,12 +9,17 @@
 
 use common::inventory_vectors::InventoryVectors;
 use super::payload::Payload;
-
+use serialization::stream::Stream;
+use serialization::reader::Error;
 
 pub struct GetData(Vec<InventoryVectors>);
 
 impl Payload for GetData {
     fn command() -> &'static str {
         "getdata"
+    }
+
+    fn serialize(&self, stream: & mut Stream) -> Result<(), Error> {
+        unimplemented!()
     }
 }

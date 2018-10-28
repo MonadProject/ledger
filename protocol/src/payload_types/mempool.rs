@@ -6,6 +6,8 @@
 //It is specified in BIP 35. Since BIP 37, if a bloom filter is loaded, only transactions matching the filter are replied.
 
 use super::payload::Payload;
+use serialization::stream::Stream;
+use serialization::reader::Error;
 
 
 pub struct MemPool;
@@ -13,5 +15,9 @@ pub struct MemPool;
 impl Payload for MemPool {
     fn command() -> &'static str {
         "mempool"
+    }
+
+    fn serialize(&self, stream: & mut Stream) -> Result<(), Error> {
+        unimplemented!()
     }
 }

@@ -9,12 +9,17 @@
 //No additional data is transmitted with this message.
 
 use super::payload::Payload;
-
+use serialization::stream::Stream;
+use serialization::reader::Error;
 
 pub struct SendHeaders;
 
 impl Payload for SendHeaders {
     fn command() -> &'static str {
         "sendheaders"
+    }
+
+    fn serialize(&self, stream: & mut Stream) -> Result<(), Error> {
+        unimplemented!()
     }
 }

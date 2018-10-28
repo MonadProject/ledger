@@ -3,6 +3,8 @@
 
 use basictype::bytes::Bytes;
 use super::payload::Payload;
+use serialization::stream::Stream;
+use serialization::reader::Error;
 
 
 pub struct FilterLoad {
@@ -20,5 +22,9 @@ pub struct FilterLoad {
 impl Payload for FilterLoad {
     fn command() -> &'static str {
         "filterload"
+    }
+
+    fn serialize(&self, stream: & mut Stream) -> Result<(), Error> {
+        unimplemented!()
     }
 }

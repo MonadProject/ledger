@@ -12,6 +12,8 @@
 use basictype::hash::Hash256;
 use payload_types::version::Version;
 use super::payload::Payload;
+use serialization::stream::Stream;
+use serialization::reader::Error;
 
 pub struct GetBlocks {
     //the protocol version
@@ -26,5 +28,9 @@ pub struct GetBlocks {
 impl Payload for GetBlocks {
     fn command() -> &'static str {
         "getblocks"
+    }
+
+    fn serialize(&self, stream: & mut Stream) -> Result<(), Error> {
+        unimplemented!()
     }
 }

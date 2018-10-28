@@ -3,6 +3,8 @@
 
 use common::inventory_vectors::InventoryVectors;
 use super::payload::Payload;
+use serialization::stream::Stream;
+use serialization::reader::Error;
 
 
 pub struct NotFound(Vec<InventoryVectors>);
@@ -10,5 +12,9 @@ pub struct NotFound(Vec<InventoryVectors>);
 impl Payload for NotFound {
     fn command() -> &'static str {
         "notfound"
+    }
+
+    fn serialize(&self, stream: & mut Stream) -> Result<(), Error> {
+        unimplemented!()
     }
 }

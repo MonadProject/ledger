@@ -1,5 +1,7 @@
 use common::network_address::Network_Address;
 use super::payload::Payload;
+use serialization::stream::Stream;
+use serialization::reader::Error;
 
 pub enum Version {
     V0(Version0),
@@ -31,5 +33,9 @@ pub struct Version70001 {
 impl Payload for Version {
     fn command() -> &'static str {
         "version"
+    }
+
+    fn serialize(&self, stream: &mut Stream) -> Result<(), Error> {
+        unimplemented!()
     }
 }

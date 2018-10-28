@@ -9,6 +9,8 @@
 
 use payload_types::version::Version;
 use basictype::hash::Hash256;
+use serialization::stream::Stream;
+use serialization::reader::Error;
 
 pub struct GetHeaders{
     pub version: Version,

@@ -1,5 +1,8 @@
 use common::network_address::Network_Address;
 use super::payload::Payload;
+use serialization::reader::Error;
+use serialization::stream::Stream;
+use serialization::compact::Compact;
 
 //see https://en.bitcoin.it/wiki/Protocol_documentation#addr
 
@@ -13,8 +16,13 @@ pub struct AddressEntry {
     net_addr: Network_Address,
 }
 
+
 impl Payload for Addr {
     fn command() -> &'static  str {
         "addr"
+    }
+
+    fn serialize(&self, stream: & mut Stream) -> Result<(), Error> {
+        unimplemented!()
     }
 }

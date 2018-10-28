@@ -6,6 +6,8 @@
 
 
 use super::payload::Payload;
+use serialization::stream::Stream;
+use serialization::reader::Error;
 
 
 //No additional data is transmitted with this message.
@@ -14,5 +16,9 @@ pub struct GetAddr;
 impl Payload for GetAddr {
     fn command() -> &'static str {
         "getaddr"
+    }
+
+    fn serialize(&self, stream: & mut Stream) -> Result<(), Error> {
+        unimplemented!()
     }
 }
