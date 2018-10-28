@@ -161,6 +161,16 @@ impl Stream {
         self
     }
 
+
+    pub fn write_list<Element>(&mut self, list: &[Element]) -> &mut Self where Element: Serializable {
+        //calculate length
+        Compact::from(list.len()).serialize(self);
+        for element in list {
+            self.write(element);
+        }
+        self
+    }
+
     pub fn write<S>(&mut self, s: &S) -> &mut Self where S: Serializable {
         s.serialize(self);
         self
@@ -245,5 +255,16 @@ mod tests {
         println!("origin bytes is: {:?}", bytes);
         bytes.serialize(&mut stream);
         println!("{:?}", stream);
+    }
+
+    #[test]
+    fn test_write_list() {
+        let list = vec![String::from("renlulu")];
+        let mut stream = Stream::new();
+        stream.write_list(&list);
+        println!("{:?}", stream);
+
+        let buffer = vec![1u8, 7, 114, 101, 110, 108, 117, 108, 117];
+        assert_eq!(buffer, stream.take())
     }
 }
