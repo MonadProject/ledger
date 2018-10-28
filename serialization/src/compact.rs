@@ -8,6 +8,12 @@ use stream::Stream;
 
 pub struct Compact(u64);
 
+impl Compact {
+    pub fn len(&self) -> u64 {
+        self.0
+    }
+}
+
 impl From<u8> for Compact {
     fn from(i: u8) -> Self {
         Compact(i as u64)

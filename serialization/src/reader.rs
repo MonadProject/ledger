@@ -106,6 +106,17 @@ impl Deserializable for Bytes {
     }
 }
 
+impl<E> Deserializable for Vec<E> where E: Deserializable {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        let compact = reader.read::<Compact>()?;
+        let length = compact.len();
+        let mut result: Vec<E> = vec![];
+        for i in 0..length {
+            result.push(reader.read()?);
+        }
+        Ok(result)
+    }
+}
 
 pub fn deserialize<R, T>(buffer: R) -> Result<T, Error> where R: io::Read, T: Deserializable {
     let mut reader = Reader::from_buffer(buffer);

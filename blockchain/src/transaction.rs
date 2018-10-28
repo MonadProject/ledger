@@ -6,12 +6,38 @@ use serialization::stream::{Serializable, Stream};
 use std::io;
 
 // see https://en.bitcoin.it/wiki/Protocol_documentation#tx
-
 pub struct Transaction {
     pub version: i32,
     pub tx_in: Vec<Input>,
     pub tx_out: Vec<OutPoint>,
     pub witnesses: Vec<Bytes>,
+    pub lock_time: u32,
+}
+
+impl Serializable for Transaction {
+    fn serialize(&self, s: &mut Stream) {
+        s.write(&self.version);
+        s.write_list(&self.tx_in);
+        s.write_list(&self.tx_out);
+        s.write_list(&self.witnesses);
+        s.write(&self.lock_time);
+    }
+
+    fn serialized_size(&self) -> usize {
+        unimplemented!()
+    }
+}
+
+impl Deserializable for Transaction {
+    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+        Ok(Transaction {
+            version: reader.read()?,
+            tx_in: reader.read()?,
+            tx_out: reader.read()?,
+            witnesses: reader.read()?,
+            lock_time: reader.read()?,
+        })
+    }
 }
 
 // former transaction output, now input, more detail please google utxo pattern
