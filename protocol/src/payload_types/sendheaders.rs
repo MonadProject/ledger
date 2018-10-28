@@ -8,4 +8,13 @@
 //
 //No additional data is transmitted with this message.
 
+use super::payload::Payload;
+
+
 pub struct SendHeaders;
+
+impl Payload for SendHeaders {
+    fn command() -> &'static str {
+        "sendheaders"
+    }
+}

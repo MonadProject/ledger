@@ -1,5 +1,7 @@
 use basictype::bytes::Bytes;
 use basictype::hash::Hash256;
+use super::payload::Payload;
+
 
 pub struct MerkleBlock {
     pub version: u32,
@@ -11,4 +13,10 @@ pub struct MerkleBlock {
     pub total_transactions: u32,
     pub hashes: Vec<Hash256>,
     pub flags: Bytes,
+}
+
+impl Payload for MerkleBlock {
+    fn command() -> &'static str {
+        "merkleblock"
+    }
 }

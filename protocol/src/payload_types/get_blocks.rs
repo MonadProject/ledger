@@ -11,6 +11,7 @@
 
 use basictype::hash::Hash256;
 use payload_types::version::Version;
+use super::payload::Payload;
 
 pub struct GetBlocks {
     //the protocol version
@@ -20,4 +21,10 @@ pub struct GetBlocks {
     //hash of the last desired block; set to zero to get as many blocks as possible (500)
     pub hash_stop: Hash256,
 
+}
+
+impl Payload for GetBlocks {
+    fn command() -> &'static str {
+        "getblocks"
+    }
 }

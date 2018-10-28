@@ -8,5 +8,13 @@
 // having clients start to depend on nodes having full transaction indexes (which modern nodes do not).
 
 use common::inventory_vectors::InventoryVectors;
+use super::payload::Payload;
+
 
 pub struct GetData(Vec<InventoryVectors>);
+
+impl Payload for GetData {
+    fn command() -> &'static str {
+        "getdata"
+    }
+}

@@ -1,4 +1,5 @@
 use common::network_address::Network_Address;
+use super::payload::Payload;
 
 pub enum Version {
     V0(Version0),
@@ -25,4 +26,10 @@ pub struct Version106 {
 pub struct Version70001 {
     //Whether the remote peer should announce relayed transactions or not
     pub relay: bool,
+}
+
+impl Payload for Version {
+    fn command() -> &'static str {
+        "version"
+    }
 }

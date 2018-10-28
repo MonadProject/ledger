@@ -8,7 +8,6 @@
 // contains a hash on the invalid branch.
 
 use payload_types::version::Version;
-
 use basictype::hash::Hash256;
 
 pub struct GetHeaders{

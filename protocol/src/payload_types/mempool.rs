@@ -5,4 +5,13 @@
 //
 //It is specified in BIP 35. Since BIP 37, if a bloom filter is loaded, only transactions matching the filter are replied.
 
+use super::payload::Payload;
+
+
 pub struct MemPool;
+
+impl Payload for MemPool {
+    fn command() -> &'static str {
+        "mempool"
+    }
+}

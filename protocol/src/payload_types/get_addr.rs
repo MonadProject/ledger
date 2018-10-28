@@ -5,6 +5,14 @@
 // the last three hours.
 
 
-//No additional data is transmitted with this message.
+use super::payload::Payload;
 
+
+//No additional data is transmitted with this message.
 pub struct GetAddr;
+
+impl Payload for GetAddr {
+    fn command() -> &'static str {
+        "getaddr"
+    }
+}

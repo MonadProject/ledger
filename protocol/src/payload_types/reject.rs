@@ -1,4 +1,5 @@
 //The reject message is sent when messages are rejected.
+use super::payload::Payload;
 
 pub struct Reject {
     pub message: String,
@@ -6,4 +7,10 @@ pub struct Reject {
     pub reason: String,
     pub data: u8,
 
+}
+
+impl Payload for Reject {
+    fn command() -> &'static str {
+        "reject"
+    }
 }

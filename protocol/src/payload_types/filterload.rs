@@ -2,6 +2,8 @@
 
 
 use basictype::bytes::Bytes;
+use super::payload::Payload;
+
 
 pub struct FilterLoad {
     //The filter itself is simply a bit field of arbitrary byte-aligned size. The maximum size is 36,000 bytes.
@@ -13,4 +15,10 @@ pub struct FilterLoad {
     //A set of flags that control how matched items are added to the filter.
     pub nFlags: u8,
 
+}
+
+impl Payload for FilterLoad {
+    fn command() -> &'static str {
+        "filterload"
+    }
 }
