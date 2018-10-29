@@ -10,4 +10,5 @@
 /network/target
 /io_future/target
 /protocol/target
+/monadmacro/target
 .idea/

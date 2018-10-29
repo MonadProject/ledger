@@ -40,7 +40,7 @@
         - [x] tx
         - [x] verack
         - [x] version
-    - [ ] 为Payload 实现序列化和反序列化方法
+    - [ ] 为Payload 实现序列化和反序列化方法(宏实现)
        
 
 ## 简介
