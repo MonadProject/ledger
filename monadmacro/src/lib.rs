@@ -1,3 +1,5 @@
+//see https://github.com/rust-lang/book/blob/master/first-edition/src/procedural-macros.md
+
 extern crate proc_macro;
 #[macro_use]
 extern crate quote;
@@ -5,37 +7,52 @@ extern crate syn;
 
 use proc_macro::TokenStream;
 use syn::{DeriveInput, parse_macro_input};
+use syn::VariantData;
 
 
-
-//see https://github.com/dtolnay/syn/blob/master/examples/heapsize/heapsize_derive/src/lib.rs
 #[proc_macro_derive(Monad_Serializable)]
 pub fn monad_serialize(input: TokenStream) -> TokenStream {
 
-    // Parse the input tokens into a syntax tree
-    //
-//    let input = parse_macro_input!(input as DeriveInput);
-    unimplemented!()
+    // Construct a string representation of the type definition
+//    let s = input.to_string();
 
+    // Parse the string representation
+//    let ast = syn::parse_derive_input(&s).unwrap();
+
+    // Build the impl
+//    let gen = impl_serialize(&ast);
+
+    unimplemented!()
 }
 
 /// Data structure sent to a `proc_macro_derive` macro.
 /// *This type is available if Syn is built with the `"derive"` feature.*
-fn serialize(input: &DeriveInput) {
-    let data = match input.data {
-        syn::Data::Struct(ref data) => data,
-        _ => panic!("not struct")
-    };
+fn impl_serialize(ast: &syn::DeriveInput) -> quote::Tokens {
+//    let body: &VariantData = match ast.body {
+//        syn::Body::Struct(ref s) => s,
+//        _ => println!("not struct"),
+//    };
 
-    //todo
+    unimplemented!()
 }
 
-/// consider struct and tuple struct(Fields of tuple structs have no names.)
-fn serialize_field(index: usize,field: &syn::Field) {
-    let indent = match field.ident {
+fn serialize_field(index: usize, field: &syn::Field) -> quote::Tokens {
+    let ident = match field.ident {
         Some(ref ident) => ident.to_string(),
         None => index.to_string()
     };
+
+    let id = syn::Ident::new(format!("self.{}", ident));
+
+    if "Vec" == &ident.to_string() {
+        quote! {
+            stream.write_list(&#id);
+        }
+    } else {
+        quote! {
+            stream.write(&#id);
+        }
+    }
 }
 
 
