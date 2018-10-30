@@ -32,8 +32,18 @@ fn impl_serialize(ast: &syn::DeriveInput) -> quote::Tokens {
 //        syn::Body::Struct(ref s) => s,
 //        _ => println!("not struct"),
 //    };
-
+//
+//
+//    let a = *body;
+//
+//    let bbb = match *body {
+//        syn::VariantData::Struct(ref fields) => fields.iter().enumerate().map().collect(),
+//    };
     unimplemented!()
+}
+
+fn serialize_field_map(pairs: (usize, &syn::Field)) -> quote::Tokens {
+    serialize_field(pairs.0, pairs.1)
 }
 
 fn serialize_field(index: usize, field: &syn::Field) -> quote::Tokens {
