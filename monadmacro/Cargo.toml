@@ -6,6 +6,7 @@ authors = ["xiaohuo <xiaohuo200@gmail.com>"]
 [dependencies]
 syn = "0.11.11"
 quote = "0.3.15"
+serialization = { path = "../serialization"}
 
 [lib]
 proc-macro = true

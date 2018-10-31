@@ -3,6 +3,7 @@
 extern crate proc_macro;
 #[macro_use]
 extern crate quote;
+extern crate serialization;
 extern crate syn;
 
 use proc_macro::TokenStream;
@@ -12,34 +13,48 @@ use syn::VariantData;
 
 #[proc_macro_derive(Monad_Serializable)]
 pub fn monad_serialize(input: TokenStream) -> TokenStream {
-
-    // Construct a string representation of the type definition
-//    let s = input.to_string();
-
-    // Parse the string representation
-//    let ast = syn::parse_derive_input(&s).unwrap();
-
-    // Build the impl
-//    let gen = impl_serialize(&ast);
-
-    unimplemented!()
+    let ast = syn::parse_derive_input(&input.to_string()).unwrap();
+    impl_serialize(&ast)
 }
 
-/// Data structure sent to a `proc_macro_derive` macro.
-/// *This type is available if Syn is built with the `"derive"` feature.*
-fn impl_serialize(ast: &syn::DeriveInput) -> quote::Tokens {
-//    let body: &VariantData = match ast.body {
-//        syn::Body::Struct(ref s) => s,
-//        _ => println!("not struct"),
-//    };
-//
-//
-//    let a = *body;
-//
-//    let bbb = match *body {
-//        syn::VariantData::Struct(ref fields) => fields.iter().enumerate().map().collect(),
-//    };
-    unimplemented!()
+
+fn impl_serialize(ast: &syn::DeriveInput) -> TokenStream {
+    //1.首先确保打这个注解的是struct
+    let data = match ast.body {
+        syn::Body::Struct(ref data) => data,
+        _ => panic!("only support for structs"),
+    };
+
+    //2.不支持union 类型
+    let statements: Vec<_> = match *data {
+        syn::VariantData::Struct(ref fields) => fields.iter().enumerate().map(serialize_field_map).collect(),
+        syn::VariantData::Tuple(ref fields) => fields.iter().enumerate().map(serialize_field_map).collect(),
+        _ => panic!("no union")
+    };
+
+    let identity = &ast.ident;
+
+    let dummy = syn::Ident::new(format!("impl_serialization_for{}", identity));
+
+    //see https://docs.rs/quote/0.6.9/quote/macro.quote.html
+    let tokens = quote! {
+		#[allow(non_upper_case_globals, unused_attributes, unused_qualifications)]
+		const #dummy: () = {
+			extern crate serialization;
+			impl serialization::stream::Serializable for #identity {
+			    fn serialize(&self, stream: &mut serialization::stream::Stream) {
+				    #(#statements)*
+			    }
+
+			    fn serialized_size(&self) -> usize {
+			        //todo fix me
+				    1
+			    }
+
+            }
+		};
+    };
+    tokens.parse().unwrap()
 }
 
 fn serialize_field_map(pairs: (usize, &syn::Field)) -> quote::Tokens {

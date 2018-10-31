@@ -7,3 +7,4 @@ authors = ["xiaohuo <xiaohuo200@gmail.com>"]
 basictype = { path = "../basictype"}
 crypto = { path = "../crypto" }
 serialization = { path = "../serialization" }
+monadmacro = { path = "../monadmacro" }
