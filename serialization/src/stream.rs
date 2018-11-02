@@ -163,14 +163,15 @@ impl Stream {
     }
 
 
-    pub fn write_list<Element>(&mut self, list: &[Element]) -> &mut Self where Element: Serializable {
+    pub fn write_list<T>(&mut self, list: &[T]) -> &mut Self where T: Serializable {
         //calculate length
         Compact::from(list.len()).serialize(self);
         for element in list {
-            self.write(element);
+            element.serialize(self);
         }
         self
     }
+
 
     pub fn write<S>(&mut self, s: &S) -> &mut Self where S: Serializable {
         s.serialize(self);
@@ -195,13 +196,29 @@ pub fn serialize<T>(data: &T) -> Bytes where T: Serializable {
     stream.take_stream()
 }
 
+pub fn serialize_list<T>(list: &[T]) -> Bytes where T: Serializable {
+    let mut stream = Stream::new();
+    stream.write_list(list);
+    stream.take_stream()
+}
+
 
 #[cfg(test)]
 mod tests {
     use stream::Serializable;
     use super::Bytes;
     use super::serialize;
+    use super::serialize_list;
     use super::Stream;
+
+
+    #[test]
+    fn test_serialize_list() {
+        let list = &[1u8,2,3,4,5,6][..];
+        let bytes = serialize_list(list);
+        println!("{:?}",bytes);
+
+    }
 
 
     #[test]
@@ -283,12 +300,10 @@ mod tests {
 
     #[test]
     fn test_write_list() {
-        let list = vec![String::from("renlulu")];
+//        let list = &[1u8,2,3][..];
+        let list: &[String] = &[String::from("ddd")][..];
         let mut stream = Stream::new();
-        stream.write_list(&list);
+        stream.write_list(list);
         println!("{:?}", stream);
-
-        let buffer = vec![1u8, 7, 114, 101, 110, 108, 117, 108, 117];
-        assert_eq!(buffer, stream.take())
     }
 }
