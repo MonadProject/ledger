@@ -17,7 +17,6 @@ pub fn monad_serialize(input: TokenStream) -> TokenStream {
     impl_serialize(&ast)
 }
 
-
 fn impl_serialize(ast: &syn::DeriveInput) -> TokenStream {
     //1.首先确保打这个注解的是struct
     let data = match ast.body {
@@ -84,11 +83,8 @@ fn impl_deserialize(ast: &syn::DeriveInput) -> TokenStream {
 
     let dummy = syn::Ident::new(format!("impl_deserialization_for{}", identity));
 
-    let tokens = quote! {
-		#[allow(non_upper_case_globals, unused_attributes, unused_qualifications)]
-		const #dummy: () = {
-			extern crate serialization;
-			impl serialization::reader::Deserializable for #identity {
+    let impl_block = quote! {
+        impl serialization::reader::Deserializable for #identity {
 			    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
 			        let result = #identity {
 			             #(#statements)*
@@ -96,8 +92,17 @@ fn impl_deserialize(ast: &syn::DeriveInput) -> TokenStream {
 
 			        Ok(result)
 			    }
-			}
+		}
+    };
 
+    let tokens = quote! {
+		#[allow(non_upper_case_globals, unused_attributes, unused_qualifications)]
+		const #dummy: () = {
+			extern crate serialization;
+			use std::io;
+			use serialization::reader::Reader;
+			use serialization::reader::Error;
+			#impl_block
 		};
     };
     tokens.parse().unwrap()

@@ -1,9 +1,11 @@
 // see https://bitcoin.org/en/developer-reference#block-headers
 
 use basictype::hash;
+use serialization::reader::Deserializable;
+use serialization::reader::Reader;
 
 // see https://en.bitcoin.it/wiki/Protocol_documentation#Block_Headers
-#[derive(Monad_Serializable)]
+#[derive(Monad_Serializable, Monad_Deserializable,Debug)]
 pub struct BlockHeader {
     pub version: u32,
     pub previous_block_header_hash: hash::Hash256,
@@ -19,6 +21,16 @@ mod tests {
     use basictype::hash;
     use serialization::stream::{Serializable, Stream};
     use super::BlockHeader;
+    use super::Deserializable;
+    use super::Reader;
+
+    #[test]
+    fn test_deserialize_with_annotation() {
+        let buf = [1u8, 0, 0, 0, 183, 251, 70, 180, 167, 129, 239, 81, 212, 247, 76, 208, 120, 163, 133, 161, 125, 57, 150, 12, 251, 131, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 183, 251, 70, 180, 167, 129, 239, 81, 212, 247, 76, 208, 120, 163, 133, 161, 125, 57, 150, 12, 251, 131, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let mut reader = Reader::from_bytes(&buf);
+        let result = BlockHeader::deserialize(&mut reader);
+        println!("{:?}",result)
+    }
 
     #[test]
     fn test_serialize_with_annotation() {
