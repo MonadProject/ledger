@@ -115,6 +115,25 @@ pub fn monad_deserialize(input: TokenStream) -> TokenStream {
 }
 
 
+pub fn deserialize_field(index: usize, field: &syn::Field) -> quote::Tokens {
+    let ident = match field.ident {
+        Some(ref ident) => ident.to_string(),
+        None => index.to_string()
+    };
+
+    let id = syn::Ident::new(ident.to_string());
+
+    if "Vec" == &ident.to_string() {
+        quote! {
+            #id: reader.read_list()?,
+        }
+    } else {
+        quote! {
+            #id: reader.read()?,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     #[test]

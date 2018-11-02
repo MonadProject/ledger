@@ -37,7 +37,7 @@ impl<R> Reader<R> where R: io::Read {
 
     pub fn read_list<T>(&mut self) -> Result<Vec<T>, Error> where T: Deserializable {
         let length: usize = self.read::<Compact>().unwrap().into();
-        let mut result = Vec::with_capacity(usize);
+        let mut result = Vec::with_capacity(length);
         for _ in 0..length {
             result.push(self.read().unwrap())
         }
