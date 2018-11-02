@@ -32,6 +32,12 @@ fn impl_serialize(ast: &syn::DeriveInput) -> TokenStream {
         _ => panic!("no union")
     };
 
+    let sizes: Vec<_> = match *data {
+        syn::VariantData::Struct(ref fields) => fields.iter().enumerate().map(serialize_size_map).collect(),
+        syn::VariantData::Tuple(ref fields) => fields.iter().enumerate().map(serialize_size_map).collect(),
+        _ => panic!("no union")
+    };
+
     let identity = &ast.ident;
 
     let dummy = syn::Ident::new(format!("impl_serialization_for{}", identity));
@@ -47,8 +53,7 @@ fn impl_serialize(ast: &syn::DeriveInput) -> TokenStream {
 			    }
 
 			    fn serialized_size(&self) -> usize {
-			        //todo fix me
-				    1
+
 			    }
 
             }
@@ -57,8 +62,8 @@ fn impl_serialize(ast: &syn::DeriveInput) -> TokenStream {
     tokens.parse().unwrap()
 }
 
-fn serialize_field_map(pairs: (usize, &syn::Field)) -> quote::Tokens {
-    serialize_field(pairs.0, pairs.1)
+fn serialize_field_map(pair: (usize, &syn::Field)) -> quote::Tokens {
+    serialize_field(pair.0, pair.1)
 }
 
 fn serialize_field(index: usize, field: &syn::Field) -> quote::Tokens {
@@ -76,6 +81,29 @@ fn serialize_field(index: usize, field: &syn::Field) -> quote::Tokens {
     } else {
         quote! {
             stream.write(&#id);
+        }
+    }
+}
+
+fn serialize_size_map(pair: (usize, &syn::Field)) -> quote::Tokens {
+    serialize_size(pair.0, pair.1)
+}
+
+fn serialize_size(index: usize, field: &syn::Field) -> quote::Tokens {
+    let ident = match field.ident {
+        Some(ref ident) => ident.to_string(),
+        None => index.to_string()
+    };
+
+    let id = syn::Ident::new(format!("self.{}", ident));
+
+    if "Vec" == &ident.to_string() {
+        quote! {
+             serialization::stream::serialize_list_size(&#id)
+        }
+    } else {
+        quote! {
+            #id.serialized_size();
         }
     }
 }
