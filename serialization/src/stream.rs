@@ -202,6 +202,10 @@ pub fn serialize_list<T>(list: &[T]) -> Bytes where T: Serializable {
     stream.take_stream()
 }
 
+pub fn serialize_list_size<T>(list: &[T]) -> usize where T: Serializable {
+    Compact::from(list.len()).serialized_size() + list.iter().map(Serializable::serialized_size).sum::<usize>()
+}
+
 
 #[cfg(test)]
 mod tests {
@@ -209,15 +213,24 @@ mod tests {
     use super::Bytes;
     use super::serialize;
     use super::serialize_list;
+    use super::serialize_list_size;
     use super::Stream;
 
 
     #[test]
-    fn test_serialize_list() {
-        let list = &[1u8,2,3,4,5,6][..];
-        let bytes = serialize_list(list);
-        println!("{:?}",bytes);
+    fn test_list_size() {
+        let list = &[String::from("aaa"), String::from("bbb")][..];
+        let size = serialize_list_size(list);
+        println!("{}",size);
+        assert_eq!(size,9);
+    }
 
+
+    #[test]
+    fn test_serialize_list() {
+        let list = &[String::from("aaa"), String::from("bbb")][..];
+        let bytes = serialize_list(list);
+        println!("{:?}", bytes);
     }
 
 
