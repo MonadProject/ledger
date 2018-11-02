@@ -38,4 +38,9 @@ mod tests {
 
         println!("{:?}",stream);
     }
+
+    #[test]
+    fn test_serialize_size_with_annotation() {
+
+    }
 }
