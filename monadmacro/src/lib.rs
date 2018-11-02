@@ -115,6 +115,11 @@ pub fn monad_deserialize(input: TokenStream) -> TokenStream {
 }
 
 
+pub fn deserialize_field_map(pair: (usize, &syn::Field)) -> quote::Tokens {
+    deserialize_field(pair.0, pair.1)
+}
+
+
 pub fn deserialize_field(index: usize, field: &syn::Field) -> quote::Tokens {
     let ident = match field.ident {
         Some(ref ident) => ident.to_string(),
