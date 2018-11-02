@@ -137,6 +137,7 @@ pub struct Stream {
     buffer: Vec<u8>
 }
 
+
 /// All types that implement `Write` get methods defined in `WriteBytesExt`
 /// for free.
 impl Write for Stream {
@@ -180,13 +181,36 @@ impl Stream {
     pub fn take(self) -> Vec<u8> {
         self.buffer
     }
+
+    //take inner, return bytes, and release it
+    pub fn take_stream(self) -> Bytes {
+        self.buffer.into()
+    }
 }
+
+//Some methods that can be used directly, like global static methods
+pub fn serialize<T>(data: &T) -> Bytes where T: Serializable {
+    let mut stream = Stream::new();
+    data.serialize(&mut stream);
+    stream.take_stream()
+}
+
 
 #[cfg(test)]
 mod tests {
     use stream::Serializable;
     use super::Bytes;
+    use super::serialize;
     use super::Stream;
+
+
+    #[test]
+    fn test_serialize() {
+        let bytes = serialize(&1u8);
+        let inner = [1].to_vec();
+        println!("{:?}", bytes);
+        assert_eq!(bytes, inner.into());
+    }
 
     #[test]
     fn test_new_stream() {
