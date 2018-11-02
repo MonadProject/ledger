@@ -62,6 +62,47 @@ fn impl_serialize(ast: &syn::DeriveInput) -> TokenStream {
     tokens.parse().unwrap()
 }
 
+#[proc_macro_derive(Monad_Deserializable)]
+pub fn monad_deserialize(input: TokenStream) -> TokenStream {
+    let ast = syn::parse_derive_input(&input.to_string()).unwrap();
+    impl_deserialize(&ast)
+}
+
+fn impl_deserialize(ast: &syn::DeriveInput) -> TokenStream {
+    let data = match ast.body {
+        syn::Body::Struct(ref data) => data,
+        _ => panic!("only support for structs"),
+    };
+
+    let statements: Vec<_> = match *data {
+        syn::VariantData::Struct(ref fields) => fields.iter().enumerate().map(deserialize_field_map).collect(),
+        syn::VariantData::Tuple(ref fields) => fields.iter().enumerate().map(deserialize_field_map).collect(),
+        _ => panic!("no union")
+    };
+
+    let identity = &ast.ident;
+
+    let dummy = syn::Ident::new(format!("impl_deserialization_for{}", identity));
+
+    let tokens = quote! {
+		#[allow(non_upper_case_globals, unused_attributes, unused_qualifications)]
+		const #dummy: () = {
+			extern crate serialization;
+			impl serialization::reader::Deserializable for #identity {
+			    fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
+			        let result = #identity {
+			             #(#statements)*
+			        };
+
+			        Ok(result)
+			    }
+			}
+
+		};
+    };
+    tokens.parse().unwrap()
+}
+
 fn serialize_field_map(pair: (usize, &syn::Field)) -> quote::Tokens {
     serialize_field(pair.0, pair.1)
 }
@@ -109,18 +150,12 @@ fn serialize_size(index: usize, field: &syn::Field) -> quote::Tokens {
 }
 
 
-#[proc_macro_derive(Monad_Deserializable)]
-pub fn monad_deserialize(input: TokenStream) -> TokenStream {
-    unimplemented!()
-}
-
-
-pub fn deserialize_field_map(pair: (usize, &syn::Field)) -> quote::Tokens {
+fn deserialize_field_map(pair: (usize, &syn::Field)) -> quote::Tokens {
     deserialize_field(pair.0, pair.1)
 }
 
 
-pub fn deserialize_field(index: usize, field: &syn::Field) -> quote::Tokens {
+fn deserialize_field(index: usize, field: &syn::Field) -> quote::Tokens {
     let ident = match field.ident {
         Some(ref ident) => ident.to_string(),
         None => index.to_string()
