@@ -5,7 +5,7 @@ use serialization::reader::Deserializable;
 use serialization::reader::Reader;
 
 // see https://en.bitcoin.it/wiki/Protocol_documentation#Block_Headers
-#[derive(Monad_Serializable, Monad_Deserializable,Debug)]
+#[derive(Monad_Serializable, Monad_Deserializable, Debug)]
 pub struct BlockHeader {
     pub version: u32,
     pub previous_block_header_hash: hash::Hash256,
@@ -29,7 +29,7 @@ mod tests {
         let buf = [1u8, 0, 0, 0, 183, 251, 70, 180, 167, 129, 239, 81, 212, 247, 76, 208, 120, 163, 133, 161, 125, 57, 150, 12, 251, 131, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 183, 251, 70, 180, 167, 129, 239, 81, 212, 247, 76, 208, 120, 163, 133, 161, 125, 57, 150, 12, 251, 131, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         let mut reader = Reader::from_bytes(&buf);
         let result = BlockHeader::deserialize(&mut reader);
-        println!("{:?}",result)
+        println!("{:?}", result)
     }
 
     #[test]

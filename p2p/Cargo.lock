@@ -304,6 +304,7 @@ version = "0.1.0"
 dependencies = [
  "basictype 0.1.0",
  "blockchain 0.1.0",
+ "monadmacro 0.1.0",
  "network 0.1.0",
  "serialization 0.1.0",
 ]

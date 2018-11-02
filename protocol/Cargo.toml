@@ -8,3 +8,4 @@ network = {path ="../network" }
 basictype = {path="../basictype"}
 serialization = {path="../serialization"}
 blockchain = {path="../blockchain"}
+monadmacro = { path = "../monadmacro" }

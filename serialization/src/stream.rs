@@ -132,6 +132,16 @@ impl Serializable for i32 {
     }
 }
 
+impl<T> Serializable for Vec<T> where T: Serializable {
+    fn serialize(&self, s: &mut Stream) {
+        s.write_list(self);
+    }
+
+    fn serialized_size(&self) -> usize {
+        unimplemented!()
+    }
+}
+
 #[derive(Debug, PartialEq)]
 pub struct Stream {
     buffer: Vec<u8>
@@ -221,8 +231,8 @@ mod tests {
     fn test_list_size() {
         let list = &[String::from("aaa"), String::from("bbb")][..];
         let size = serialize_list_size(list);
-        println!("{}",size);
-        assert_eq!(size,9);
+        println!("{}", size);
+        assert_eq!(size, 9);
     }
 
 

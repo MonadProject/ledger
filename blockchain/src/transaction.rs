@@ -6,6 +6,7 @@ use serialization::stream::{Serializable, Stream};
 use std::io;
 
 // see https://en.bitcoin.it/wiki/Protocol_documentation#tx
+#[derive(Debug)]
 pub struct Transaction {
     pub version: i32,
     pub tx_in: Vec<Input>,
@@ -78,6 +79,7 @@ impl Deserializable for OutPoint {
     }
 }
 
+#[derive(Debug)]
 pub struct Input {
     pub previous_output: OutPoint,
     pub signature_script: Bytes,
