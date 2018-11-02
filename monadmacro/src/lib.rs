@@ -32,7 +32,7 @@ fn impl_serialize(ast: &syn::DeriveInput) -> TokenStream {
         _ => panic!("no union")
     };
 
-    let size_statements : Vec<_> = match *data {
+    let size_statements: Vec<_> = match *data {
         syn::VariantData::Struct(ref fields) => fields.iter().enumerate().map(serialize_size_map).collect(),
         syn::VariantData::Tuple(ref fields) => fields.iter().enumerate().map(serialize_size_map).collect(),
         _ => panic!("no union")
@@ -53,7 +53,7 @@ fn impl_serialize(ast: &syn::DeriveInput) -> TokenStream {
 			    }
 
 			    fn serialized_size(&self) -> usize {
-                    #(#size_statements)*
+                    #(#size_statements)+*
 			    }
 
             }
@@ -103,7 +103,7 @@ fn serialize_size(index: usize, field: &syn::Field) -> quote::Tokens {
         }
     } else {
         quote! {
-            #id.serialized_size();
+            #id.serialized_size()
         }
     }
 }
