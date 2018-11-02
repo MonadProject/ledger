@@ -42,6 +42,14 @@ impl Bytes {
     }
 }
 
+impl From<Vec<u8>> for Bytes {
+    fn from(vec: Vec<u8>) -> Self {
+        Bytes {
+            bytes: vec
+        }
+    }
+}
+
 
 #[cfg(test)]
 mod tests {
