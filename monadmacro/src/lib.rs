@@ -118,10 +118,15 @@ fn serialize_field(index: usize, field: &syn::Field) -> quote::Tokens {
         None => index.to_string()
     };
 
+    println!("inner serialize field: {}", &ident.to_string());
+
+
     let id = syn::Ident::new(format!("self.{}", ident));
+
 
     if "Vec" == &ident.to_string() {
         quote! {
+
             stream.write_list(&#id);
         }
     } else {

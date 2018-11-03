@@ -4,6 +4,7 @@ extern crate basictype;
 pub mod reader;
 pub mod stream;
 pub mod compact;
+pub mod hash;
 
 #[cfg(test)]
 mod tests {

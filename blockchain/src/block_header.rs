@@ -25,6 +25,13 @@ mod tests {
     use super::Reader;
 
     #[test]
+    fn test() {
+        let hh = hash::Hash256::from_reversed_string("0000000000000000000383fb0c96397da185a378d04cf7d451ef81a7b446fbb7");
+        let mut stream = Stream::new();
+        hh.serialize(&mut stream);
+    }
+
+    #[test]
     fn test_deserialize_with_annotation() {
         let buf = [1u8, 0, 0, 0, 183, 251, 70, 180, 167, 129, 239, 81, 212, 247, 76, 208, 120, 163, 133, 161, 125, 57, 150, 12, 251, 131, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 183, 251, 70, 180, 167, 129, 239, 81, 212, 247, 76, 208, 120, 163, 133, 161, 125, 57, 150, 12, 251, 131, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         let mut reader = Reader::from_bytes(&buf);
