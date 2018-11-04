@@ -1,5 +1,5 @@
 use tokio_io::io;
 
-pub struct FutureReadPayload {
+pub struct FutureReadPayload<Async,Type> {
 
 }
