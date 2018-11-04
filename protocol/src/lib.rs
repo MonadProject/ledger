@@ -8,3 +8,4 @@ extern crate monadmacro;
 pub mod message;
 pub mod common;
 pub mod payload_types;
+pub mod payload;

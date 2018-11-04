@@ -19,6 +19,7 @@ pub fn read_header_task<A>(a: A, magic: Magic) -> FutureReadHeader<A> where A: A
     }
 }
 
+//AsyncRead 最终就是TcpStream
 impl<A> Future for FutureReadHeader<A> where A: AsyncRead {
     type Item = (A, MessageResult<MessageHeader>);
     type Error = io::Error;
@@ -40,4 +41,3 @@ impl<A> Future for FutureReadHeader<A> where A: AsyncRead {
         }
     }
 }
-

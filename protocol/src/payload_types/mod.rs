@@ -22,4 +22,3 @@ pub mod filterclear;
 pub mod merkleblock;
 pub mod sendheaders;
 pub mod feefilter;
-pub mod payload;
