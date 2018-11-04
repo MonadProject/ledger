@@ -8,7 +8,7 @@
 //
 //No additional data is transmitted with this message.
 
-use super::payload::Payload;
+use payload::Payload;
 use serialization::stream::Stream;
 use serialization::reader::Error;
 

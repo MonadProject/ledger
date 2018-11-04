@@ -1,5 +1,5 @@
 use common::network_address::Network_Address;
-use super::payload::Payload;
+use payload::Payload;
 use serialization::stream::Stream;
 use serialization::reader::Error;
 

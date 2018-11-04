@@ -57,13 +57,6 @@ impl Deserializable for MessageHeader {
     }
 }
 
-impl MessageHeader {
-    pub fn deserialize_slice(buffer: &[u8]) -> Result<Self, Error> {
-        let mut reader = Reader::from_bytes(buffer);
-        //todo
-    }
-}
-
 #[cfg(test)] //cargo test -- --nocapture
 mod tests {
     use serialization::reader::Deserializable;

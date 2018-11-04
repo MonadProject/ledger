@@ -1,5 +1,5 @@
 //The reject message is sent when messages are rejected.
-use super::payload::Payload;
+use payload::Payload;
 use serialization::stream::Stream;
 use serialization::reader::Error;
 

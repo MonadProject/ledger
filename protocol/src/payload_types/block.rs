@@ -1,7 +1,7 @@
 //The block message is sent in response to a getdata message
 // which requests transaction information from a block hash.
 use blockchain::block::MonadBlock;
-use super::payload::Payload;
+use payload::Payload;
 use serialization::stream::Stream;
 use serialization::reader::Error;
 

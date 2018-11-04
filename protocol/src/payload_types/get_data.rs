@@ -8,7 +8,7 @@
 // having clients start to depend on nodes having full transaction indexes (which modern nodes do not).
 
 use common::inventory_vectors::InventoryVectors;
-use super::payload::Payload;
+use payload::Payload;
 use serialization::stream::Stream;
 use serialization::reader::Error;
 

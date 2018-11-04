@@ -6,7 +6,7 @@ use common::inventory_vectors::InventoryVectors;
 
 //Payload (maximum 50,000 entries, which is just over 1.8 megabytes):
 
-use super::payload::Payload;
+use payload::Payload;
 use serialization::stream::Stream;
 use serialization::reader::Error;
 

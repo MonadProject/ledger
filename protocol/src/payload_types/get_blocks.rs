@@ -11,7 +11,7 @@
 
 use basictype::hash::Hash256;
 use payload_types::version::Version;
-use super::payload::Payload;
+use payload::Payload;
 use serialization::stream::Stream;
 use serialization::reader::Error;
 

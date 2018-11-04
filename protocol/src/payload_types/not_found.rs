@@ -2,7 +2,7 @@
 // because the requested transaction was not in the memory pool or relay set.
 
 use common::inventory_vectors::InventoryVectors;
-use super::payload::Payload;
+use payload::Payload;
 use serialization::stream::Stream;
 use serialization::reader::Error;
 

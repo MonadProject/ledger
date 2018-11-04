@@ -2,7 +2,7 @@
 // This message consists of only a message header with the command string "verack".
 //  no body
 
-use super::payload::Payload;
+use payload::Payload;
 use serialization::stream::Stream;
 use serialization::reader::Error;
 

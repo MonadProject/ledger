@@ -1,5 +1,5 @@
 use basictype::bytes::Bytes;
-use super::payload::Payload;
+use payload::Payload;
 use serialization::stream::Stream;
 use serialization::reader::Error;
 

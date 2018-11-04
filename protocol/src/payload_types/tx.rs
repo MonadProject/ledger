@@ -1,6 +1,6 @@
 //tx describes a bitcoin transaction, in reply to getdata
 use blockchain::transaction::Transaction;
-use super::payload::Payload;
+use payload::Payload;
 use serialization::stream::Stream;
 use serialization::reader::Error;
 
