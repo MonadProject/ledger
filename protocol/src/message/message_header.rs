@@ -43,6 +43,13 @@ impl Default for MessageHeader {
     }
 }
 
+impl MessageHeader {
+    pub fn deserialize_form_u8_slice(data: &[u8]) -> Self {
+        let mut reader = Reader::from_bytes(data);
+        Deserializable::deserialize::<MessageHeader>(&mut reader)
+    }
+}
+
 
 impl Deserializable for MessageHeader {
     fn deserialize<T>(reader: &mut Reader<T>) -> Result<Self, Error> where Self: Sized, T: io::Read {
@@ -56,6 +63,7 @@ impl Deserializable for MessageHeader {
         Ok(header)
     }
 }
+
 
 #[cfg(test)] //cargo test -- --nocapture
 mod tests {

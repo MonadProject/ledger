@@ -27,7 +27,7 @@ impl<A> Future for FutureReadHeader<A> where A: AsyncRead {
     fn poll(&mut self) -> Poll<Self::Item, Self::Error> {
         match self.reader.poll() {
             Ok(Async::Ready((reader, data))) => {
-                let header = MessageHeader::deserialize_slice(&data);
+                let header = MessageHeader::deserialize_form_u8_slice(&data);
                 Ok(Async::Ready((reader, header)))
             }
 
