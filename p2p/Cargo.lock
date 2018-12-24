@@ -268,6 +268,7 @@ dependencies = [
 name = "p2p"
 version = "0.1.0"
 dependencies = [
+ "basictype 0.1.0",
  "futures 0.1.25 (registry+https://github.com/rust-lang/crates.io-index)",
  "futures-cpupool 0.1.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "network 0.1.0",

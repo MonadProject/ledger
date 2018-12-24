@@ -8,6 +8,7 @@ tokio-core = "0.1.6"
 tokio-io = "0.1.1"
 futures = "0.1"
 futures-cpupool = "0.1"
-network = {path = "../network"}
-protocol = {path="../protocol"}
-serialization = {path="../serialization"}
+network = { path = "../network" }
+protocol = { path="../protocol" }
+serialization = { path="../serialization" }
+basictype = { path="../basictype" }
