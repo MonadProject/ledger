@@ -5,7 +5,7 @@ extern crate tokio_io;
 extern crate network;
 extern crate protocol;
 extern crate serialization;
-
+extern crate basictype;
 
 mod context;
 mod socket;

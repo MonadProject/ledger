@@ -11,9 +11,13 @@ use std::io;
 //see https://bitcoin.org/en/developer-reference#message-headers
 #[derive(Debug, PartialEq)]
 pub struct MessageHeader {
+    //Magic value indicating message origin network, and used to seek to next message when stream state is unknown
     magic: Magic,
+    //ASCII string identifying the packet content, NULL padded (non-NULL padding results in packet rejected)
     command: Command,
+    //Length of payload in number of bytes
     payload_size: u32,
+    //First 4 bytes of sha256(sha256(payload))
     checksum: Hash32,
 }
 
@@ -46,7 +50,7 @@ impl Default for MessageHeader {
 impl MessageHeader {
     pub fn deserialize_form_u8_slice(data: &[u8]) -> Self {
         let mut reader = Reader::from_bytes(data);
-        Deserializable::deserialize::<MessageHeader>(&mut reader)
+        Deserializable::deserialize(&mut reader).unwrap()
     }
 }
 

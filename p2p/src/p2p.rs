@@ -17,7 +17,6 @@ fn start_server(address: SocketAddr, handle: &Handle) {
     handle.spawn(server);
 }
 
-
 #[cfg(test)]
 mod tests {
     use reactor;
