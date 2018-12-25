@@ -6,21 +6,16 @@ use mcrypto::digest::Digest;
 use mcrypto::sha2::Sha256;
 
 
-//这两个方法就是
+//do not use these two methods
 pub fn sha256(input: &str) -> String {
     let mut hasher = Sha256::new();
     hasher.input_str(input);
-
-//    let out: &mut [u8] = &mut []; //都是泪啊
     hasher.result_str()
 }
 
-// todo fix it
 pub fn double_sha256(input: &str) -> String {
     sha256(&sha256(input)[..])
 }
-
-//废物
 
 
 pub fn sha2(input: &[u8]) -> Hash256 {
